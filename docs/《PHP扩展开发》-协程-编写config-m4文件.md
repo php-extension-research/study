@@ -1,11 +1,4 @@
----
-title: 《PHP扩展开发》--协程(编写config.m4文件)
-date: 2019-05-30 13:51:26
-tags:
-- PHP
-- PHP扩展
-- Swoole
----
+# 编写config.m4文件
 
 [仓库地址](https://github.com/php-extension-research/study)
 
