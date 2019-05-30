@@ -16,6 +16,8 @@ PHP_FUNCTION(test);
 static PHP_METHOD(study_coroutine, test);
 ```
 
-3、只在项目根目录下的`study_*.cc`文件里面使用`Zend API`，不在`src`目录的代码里面使用`Zend API`。
+3、扩展函数以及扩展方法的参数声明放在`study_*.cc`、`study.cc`里面。
+
+4、只在项目根目录下的`study_*.cc`文件里面使用`Zend API`，不在`src`目录的代码里面使用`Zend API`。
 
 （待补充）
