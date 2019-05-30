@@ -256,9 +256,7 @@ config.h     include      php_study.h  thirdparty
 
 （本文结束）
 
-
-
-
+[下一篇：开发规范](./《PHP扩展开发》-协程-开发规范.md)
 
 
 
