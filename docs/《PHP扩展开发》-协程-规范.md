@@ -17,7 +17,11 @@ PHP_FUNCTION(test);
 
 然后全局`PHP`扩展函数的实现放在`study_*.cc`里面。
 
-2、类的方法声明放在相应的`study_*.cc`文件里面，并且声明为`static`类型。
+2、类的方法声明放在相应的`study_*.cc`文件里面，并且声明为`static`类型。例如：
+
+```c++
+static PHP_METHOD(study_coroutine, test);
+```
 
 3、只在项目根目录下的`study_*.cc`文件里面使用`Zend API`，不在`src`目录的代码里面使用`Zend API`。
 
