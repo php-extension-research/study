@@ -15,3 +15,13 @@ study_coroutine.cc（文件）
 study_coroutine_util.cc（文件）
 ```
 
+我们在`study_coroutine.h`文件里面写下如下内容：
+
+```c++
+#ifndef STUDY_COROUTINE_H
+#define STUDY_COROUTINE_H
+
+
+#endif	/* STUDY_COROUTINE_H */
+```
+
