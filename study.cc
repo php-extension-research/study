@@ -20,26 +20,32 @@
 
 PHP_MINIT_FUNCTION(study)
 {
+	php_printf("MINIT\n");
 	return SUCCESS;
 }
 
 PHP_MSHUTDOWN_FUNCTION(study)
 {
+	php_printf("MSHUTDOWN\n");
 	return SUCCESS;
 }
 
 PHP_RINIT_FUNCTION(study)
 {
+	php_printf("RINIT\n");
 	return SUCCESS;
 }
 
 PHP_RSHUTDOWN_FUNCTION(study)
 {
+	php_printf("RSHUTDOWN\n");
 	return SUCCESS;
 }
 
 PHP_MINFO_FUNCTION(study)
 {
+	php_printf("MINFO\n");
+
 	php_info_print_table_start();
 	php_info_print_table_header(2, "study support", "enabled");
 	php_info_print_table_end();
