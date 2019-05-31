@@ -143,4 +143,16 @@ ZEND_GET_MODULE(study)
 #endif
 ```
 
+因为，我们修改了`study.cc`的文件名字，所以我们需要修改`config.m4`里面的文件：
+
+```shell
+study_source_file="\
+  study.cc \
+  ${STUDY_ASM_DIR}make_${STUDY_CONTEXT_ASM_FILE} \
+  ${STUDY_ASM_DIR}jump_${STUDY_CONTEXT_ASM_FILE}
+"
+```
+
+把`study.c`改成了`study.cc`。
+
 OK，整理完毕。
