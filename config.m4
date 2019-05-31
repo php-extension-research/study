@@ -47,7 +47,7 @@ if test "$PHP_STUDY" != "no"; then
     fi
 
     study_source_file="\
-        study.c \
+        study.cc \
         ${STUDY_ASM_DIR}make_${STUDY_CONTEXT_ASM_FILE} \
         ${STUDY_ASM_DIR}jump_${STUDY_CONTEXT_ASM_FILE}
     "
