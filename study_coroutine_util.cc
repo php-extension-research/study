@@ -8,7 +8,12 @@ static PHP_METHOD(study_coroutine_util, create);
 
 PHP_METHOD(study_coroutine_util, create)
 {
-    php_printf("success!\n");
+    zend_fcall_info fci = empty_fcall_info;
+    zend_fcall_info_cache fcc = empty_fcall_info_cache;
+
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+        Z_PARAM_FUNC(fci, fcc)
+    ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
 }
 
 static const zend_function_entry study_coroutine_util_methods[] =

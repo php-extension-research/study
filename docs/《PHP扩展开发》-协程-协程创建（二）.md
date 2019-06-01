@@ -1,0 +1,248 @@
+# 协程创建（二）
+
+这一篇文章，我们来实现一下我们创建协程的接口。
+
+首先，我们需要对传给接口的参数进行解析。解析参数需要使用`PHP`提供给我们的宏来完成，分别是开头的和结尾的宏：
+
+```c++
+1、ZEND_PARSE_PARAMETERS_START
+2、ZEND_PARSE_PARAMETERS_START_EX
+3、ZEND_PARSE_PARAMETERS_END
+4、ZEND_PARSE_PARAMETERS_END_EX
+```
+
+乍眼一看，好像这四个宏是两对，1、3一对，2、4一对。实际上这四个宏并不需要成对的使用。因为`ZEND_PARSE_PARAMETERS_START`只是`ZEND_PARSE_PARAMETERS_START_EX`的一种特殊情况，同理`ZEND_PARSE_PARAMETERS_END`也是`ZEND_PARSE_PARAMETERS_END_EX`的一种特殊情况。我们展开来看这几个宏比较直观。
+
+## ZEND_PARSE_PARAMETERS_START_EX
+
+```c++
+#define ZEND_PARSE_PARAMETERS_START_EX(flags, min_num_args, max_num_args) do { \
+		const int _flags = (flags); \
+		int _min_num_args = (min_num_args); \
+		int _max_num_args = (max_num_args); \
+		int _num_args = EX_NUM_ARGS(); \
+		int _i; \
+		zval *_real_arg, *_arg = NULL; \
+		zend_expected_type _expected_type = Z_EXPECTED_LONG; \
+		char *_error = NULL; \
+		zend_bool _dummy; \
+		zend_bool _optional = 0; \
+		int error_code = ZPP_ERROR_OK; \
+		((void)_i); \
+		((void)_real_arg); \
+		((void)_arg); \
+		((void)_expected_type); \
+		((void)_error); \
+		((void)_dummy); \
+		((void)_optional); \
+		\
+		do { \
+			if (UNEXPECTED(_num_args < _min_num_args) || \
+			    (UNEXPECTED(_num_args > _max_num_args) && \
+			     EXPECTED(_max_num_args >= 0))) { \
+				if (!(_flags & ZEND_PARSE_PARAMS_QUIET)) { \
+					if (_flags & ZEND_PARSE_PARAMS_THROW) { \
+						zend_wrong_parameters_count_exception(_min_num_args, _max_num_args); \
+					} else { \
+						zend_wrong_parameters_count_error(_min_num_args, _max_num_args); \
+					} \
+				} \
+				error_code = ZPP_ERROR_FAILURE; \
+				break; \
+			} \
+			_i = 0; \
+			_real_arg = ZEND_CALL_ARG(execute_data, 0);
+```
+
+```c++
+#define ZEND_PARSE_PARAMETERS_START(min_num_args, max_num_args) \
+	ZEND_PARSE_PARAMETERS_START_EX(0, min_num_args, max_num_args)
+```
+
+可以看到，`ZEND_PARSE_PARAMETERS_START`实际上就是让`ZEND_PARSE_PARAMETERS_START_EX`的第一个值默认为0了。我们重点来看看`ZEND_PARSE_PARAMETERS_START_EX`的三个参数：
+
+`flags`：更改`ZEND_PARSE_PARAMETERS_START`的默认行为。`flags`可取的值有`ZEND_PARSE_PARAMS_QUIET`和`ZEND_PARSE_PARAMS_THROW`。我们来看看`ZEND_PARSE_PARAMETERS_START_EX`展开后与`flags`有关的地方：
+
+```c++
+if (UNEXPECTED(_num_args < _min_num_args) || \
+			    (UNEXPECTED(_num_args > _max_num_args) && \
+			     EXPECTED(_max_num_args >= 0))) { \
+				if (!(_flags & ZEND_PARSE_PARAMS_QUIET)) { \
+					if (_flags & ZEND_PARSE_PARAMS_THROW) { \
+						zend_wrong_parameters_count_exception(_min_num_args, _max_num_args); \
+					} else { \
+						zend_wrong_parameters_count_error(_min_num_args, _max_num_args); \
+					} \
+				} \
+				error_code = ZPP_ERROR_FAILURE; \
+				break; \
+			} \
+```
+
+可以发现：
+
+```c++
+UNEXPECTED(_num_args < _min_num_args) || \
+			    (UNEXPECTED(_num_args > _max_num_args) && \
+			     EXPECTED(_max_num_args >= 0))
+```
+
+实际上就是判断传递个接口的参数个数合法，如果不合法就进入这个`if`分支。接着，
+
+```c++
+!(_flags & ZEND_PARSE_PARAMS_QUIET)
+```
+
+是判断`flags`是否设置了`ZEND_PARSE_PARAMS_QUIET`。如果没有设置`ZEND_PARSE_PARAMS_QUIET`，则往这个`if`分支走。然后：
+
+```c++
+_flags & ZEND_PARSE_PARAMS_THROW
+```
+
+是判断`flags`是否设置了`ZEND_PARSE_PARAMS_THROW`，如果设置了`ZEND_PARSE_PARAMS_THROW`，那么就抛出一个参数个数不对的异常，否则就报一个`error`。
+
+那么，如果`flags`是`ZEND_PARSE_PARAMS_QUIET`的话，及时参数个数传递错误，也不会报错。
+
+## ZEND_PARSE_PARAMETERS_END_EX
+
+```c++
+#define ZEND_PARSE_PARAMETERS_END_EX(failure) \
+		} while (0); \
+		if (UNEXPECTED(error_code != ZPP_ERROR_OK)) { \
+			if (!(_flags & ZEND_PARSE_PARAMS_QUIET)) { \
+				if (error_code == ZPP_ERROR_WRONG_CALLBACK) { \
+					if (_flags & ZEND_PARSE_PARAMS_THROW) { \
+						zend_wrong_callback_exception(_i, _error); \
+					} else { \
+						zend_wrong_callback_error(_i, _error); \
+					} \
+				} else if (error_code == ZPP_ERROR_WRONG_CLASS) { \
+					if (_flags & ZEND_PARSE_PARAMS_THROW) { \
+						zend_wrong_parameter_class_exception(_i, _error, _arg); \
+					} else { \
+						zend_wrong_parameter_class_error(_i, _error, _arg); \
+					} \
+				} else if (error_code == ZPP_ERROR_WRONG_ARG) { \
+					if (_flags & ZEND_PARSE_PARAMS_THROW) { \
+						zend_wrong_parameter_type_exception(_i, _expected_type, _arg); \
+					} else { \
+						zend_wrong_parameter_type_error(_i, _expected_type, _arg); \
+					} \
+				} \
+			} \
+			failure; \
+		} \
+	} while (0)
+```
+
+```c++
+#define ZEND_PARSE_PARAMETERS_END() \
+	ZEND_PARSE_PARAMETERS_END_EX(return)
+```
+
+```c++
+		} while (0); 
+```
+
+是对`ZEND_PARSE_PARAMETERS_START_EX`或者`ZEND_PARSE_PARAMETERS_START`的那个`do {`进行闭合。`error_code`是在真正去解析参数本身是否合法的宏里面设置的，如果参数个数传递正确的情况下并且每个参数本身都是合法的，就不会进入后面的代码了，直接到了`ZEND_PARSE_PARAMETERS_END()`后面的代码。如果参数本身不合法，例如本来是要接收一个整型，但是传递了一个数组，那么就会设置`error_code`为对应的值。然后逐个`if`进行判断，抛出对应的异常。
+
+而这个`failure`则是我们可以在`error_code`不为`ZPP_ERROR_OK`的时候，做一些操作。例如，返回一个`false`给`PHP`脚本。反正，你可以在这里做任何的操作。
+
+## 实现参数解析
+
+有了前面的基础，解析参数的代码就好理解多了：
+
+```c++
+PHP_METHOD(study_coroutine_util, create)
+{
+    zend_fcall_info fci = empty_fcall_info;
+    zend_fcall_info_cache fcc = empty_fcall_info_cache;
+
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+        Z_PARAM_FUNC(fci, fcc)
+    ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
+}
+```
+
+`zend_fcall_info`就是用来接收我们创建协程的时候传递的那个函数。我们使用`ZEND_PARSE_PARAMETERS_END_EX`的原因是因为我们希望在解析参数失败的时候，会向`PHP`返回一个`false`。
+
+`RETURN_FALSE`展开如下：
+
+```c++
+#define RETURN_FALSE  					{ RETVAL_FALSE; return; }
+#define RETVAL_FALSE  					ZVAL_FALSE(return_value)
+```
+
+所以，`RETURN_FALSE`就是设置了变量`return_value`的值为`false`，然后在从这个接口`return`。但是，不是`return`到`PHP`脚本里面。原因很简单，是虚拟机去解析的`PHP`代码。
+
+## 编译测试
+
+我们编写如下`PHP`脚本：
+
+```php
+<?php
+
+Study\Coroutine::create();
+```
+
+然后编译、安装扩展：
+
+```shell
+~/codeDir/cppCode/study # ./make.sh 
+```
+
+然后，执行脚本：
+
+```shell
+~/codeDir/cppCode/study # php test.php 
+
+Warning: Study\Coroutine::create() expects exactly 1 parameter, 0 given in /root/codeDir/cppCode/study/test.php on line 3
+~/codeDir/cppCode/study # 
+```
+
+给出了`warning`，说是需要传递一个参数。
+
+然后再修改`PHP`脚本：
+
+```php
+<?php
+
+Study\Coroutine::create(1);
+```
+
+然后执行：
+
+```shell
+~/codeDir/cppCode/study # php test.php 
+
+Fatal error: Uncaught TypeError: Argument 1 passed to Study\Coroutine::create() must be callable, int given in /root/codeDir/cppCode/study/test.php:3
+Stack trace:
+#0 /root/codeDir/cppCode/study/test.php(3): Study\Coroutine::create(1)
+#1 {main}
+  thrown in /root/codeDir/cppCode/study/test.php on line 3
+~/codeDir/cppCode/study # 
+```
+
+给出了`Fetal`，说是参数必须是可调用的，`int`被传递了。
+
+再次修改脚本：
+
+```php
+<?php
+
+Study\Coroutine::create(function() {
+    echo 1;
+});
+```
+
+执行：
+
+```shell
+~/codeDir/cppCode/study # php test.php 
+~/codeDir/cppCode/study # 
+```
+
+没报错，参数解析成功。
+
+
+

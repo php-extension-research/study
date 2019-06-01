@@ -1,3 +1,5 @@
 <?php
 
-Study\Coroutine::create();
+Study\Coroutine::create(function() {
+    echo 1;
+});
