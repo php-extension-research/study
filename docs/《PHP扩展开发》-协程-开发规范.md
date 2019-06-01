@@ -23,6 +23,7 @@ static PHP_METHOD(study_coroutine, test);
 5、头文件的引入关系如下：
 
 ```
+study_*.cc 引入对应的 study_*.h
 study.cc 引入 php_study.h
 php_study.h 引入 php内核提供的头文件
 php_study.h 引入 include/study.h
