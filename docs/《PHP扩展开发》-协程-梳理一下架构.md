@@ -4,7 +4,7 @@
 
 然后，我们需要去实现`PHP`的协程，这个就和协程的一些行为有关了，包括`yield`、`resume`等等。我们把这些实现放在文件`study_coroutine.cc`、`study_coroutine.h`里面。
 
-最后，我们需要提供协程的接口给`PHP`脚本来使用。我们把这些实现放在文件`study_coroutine_util.cc`里面。
+最后，我们需要提供协程的接口给`PHP`脚本来使用。我们把这些实现放在文件`study_coroutine_util.cc`里面。这个文件会对`PHP`调用协程接口时传递的参数做一些校验工作。
 
 所以，我们创建以下目录以及文件：
 

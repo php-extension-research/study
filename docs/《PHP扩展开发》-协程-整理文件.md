@@ -156,3 +156,6 @@ study_source_file="\
 把`study.c`改成了`study.cc`。
 
 OK，整理完毕。
+
+[下一篇：理解PHP生命周期的过程](./《PHP扩展开发》-协程-理解PHP生命周期的过程.md)
+
