@@ -25,3 +25,17 @@ study_coroutine_util.cc（文件）
 #endif	/* STUDY_COROUTINE_H */
 ```
 
+同时，我们需要修改我们的`config.m4`文件：
+
+```shell
+study_source_file="\
+  study.cc \
+  study_coroutine.cc \
+  study_coroutine_util.cc \
+  ${STUDY_ASM_DIR}make_${STUDY_CONTEXT_ASM_FILE} \
+  ${STUDY_ASM_DIR}jump_${STUDY_CONTEXT_ASM_FILE}
+"
+```
+
+[下一篇：协程创建（一）](《PHP扩展开发》-协程-协程创建（一）.md)
+

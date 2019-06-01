@@ -20,6 +20,7 @@
 
 PHP_MINIT_FUNCTION(study)
 {
+	study_coroutine_util_init();
 	return SUCCESS;
 }
 

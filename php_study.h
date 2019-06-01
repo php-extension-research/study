@@ -49,4 +49,6 @@ ZEND_BEGIN_MODULE_GLOBALS(study)
 
 ZEND_END_MODULE_GLOBALS(study)
 
+void study_coroutine_util_init();
+
 #endif	/* PHP_STUDY_H */
