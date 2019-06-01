@@ -48,6 +48,8 @@ if test "$PHP_STUDY" != "no"; then
 
     study_source_file="\
         study.cc \
+        study_coroutine.cc \
+        study_coroutine_util.cc \
         ${STUDY_ASM_DIR}make_${STUDY_CONTEXT_ASM_FILE} \
         ${STUDY_ASM_DIR}jump_${STUDY_CONTEXT_ASM_FILE}
     "
