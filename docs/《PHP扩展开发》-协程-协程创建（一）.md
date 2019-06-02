@@ -186,7 +186,17 @@ typedef struct _zend_function_entry {
 } zend_function_entry;
 ```
 
-`fname`是函数的名字。
+`fname`是函数的名字，对应的是`PHP_ME`的第二个参数。在这里，是`create`。这个`fname`是我们可以在`PHP`脚本中使用的。而`PHP_ME`的第一个参数`study_coroutine_util`是为了拼凑出：
+
+```c++
+PHP_METHOD(study_coroutine_util, create)
+```
+
+声明的函数：
+
+```c++
+zim_study_coroutine_util_create
+```
 
 `handler`是一个函数指针，也就是该函数的主体。那么是什么样的函数指针呢？我们得看看前面的`zif_handler`：
 
@@ -278,4 +288,3 @@ success!
 OK，到这里，我们算是完成了协程创建接口的前期工作。
 
 [下一篇：协程创建（二）](./《PHP扩展开发》-协程-协程创建（二）.md)
-
