@@ -205,7 +205,7 @@ zim_study_coroutine_util_create
 typedef void (ZEND_FASTCALL *zif_handler)(INTERNAL_FUNCTION_PARAMETERS);
 ```
 
-可以发现，这是一个没有返回值，参数是`INTERNAL_FUNCTION_PARAMETERS`的函数。这个其实和`PHP_METHOD`这个宏展开得到的函数声明类型是一致的。
+可以发现，这是一个没有返回值，参数是`INTERNAL_FUNCTION_PARAMETERS`的函数。这个其实和`PHP_METHOD`这个宏展开得到的函数声明类型是一致的。在这里，这个`handler`存放的就是函数指针`zim_study_coroutine_util_create`。
 
 `arg_info`是这个接口方法对应的参数。可以发现，它实际上就是我们上面的那个参数展开后的类型。所以这里很明显，我们必须填写`arginfo_study_coroutine_create`，也就是我们参数展开后定义的那个变量。
 
