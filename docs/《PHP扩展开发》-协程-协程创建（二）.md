@@ -11,6 +11,8 @@
 4、ZEND_PARSE_PARAMETERS_END_EX
 ```
 
+（其中，末尾的`EX`是`extended`的缩写）
+
 乍眼一看，好像这四个宏是两对，1、3一对，2、4一对。实际上这四个宏并不需要成对的使用。因为`ZEND_PARSE_PARAMETERS_START`只是`ZEND_PARSE_PARAMETERS_START_EX`的一种特殊情况，同理`ZEND_PARSE_PARAMETERS_END`也是`ZEND_PARSE_PARAMETERS_END_EX`的一种特殊情况。我们展开来看这几个宏比较直观。
 
 ## ZEND_PARSE_PARAMETERS_START_EX

@@ -145,6 +145,8 @@ void ZEND_FASTCALL zim_##study_coroutine_util##_##create(zend_execute_data *exec
 void zim_study_coroutine_util_create(zend_execute_data *execute_data, zval *return_value);
 ```
 
+（其中，`zim`是`zend internal method`的缩写）
+
 通过对接口方法的展开，我们发现，虽然接口命名是单词`study_coroutine_util`和`create`，似乎必须得是真正的类名加上方法名。其实不然，这里也只是为了可读性更好。
 
 我们还可以对比一下`PHP_FUNCTION`这个宏，实际上，它和`PHP_METHOD`的一个区别就是少拼接了`classname`。
