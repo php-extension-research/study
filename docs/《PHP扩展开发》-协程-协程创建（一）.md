@@ -188,7 +188,7 @@ typedef struct _zend_function_entry {
 } zend_function_entry;
 ```
 
-`fname`是函数的名字，对应的是`PHP_ME`的第二个参数。在这里，是`create`。这个`fname`是我们可以在`PHP`脚本中使用的。而`PHP_ME`的第一个参数`study_coroutine_util`是为了拼凑出：
+`fname`是函数的名字，对应的是`PHP_ME`的第二个参数，`Zend`引擎将会创建一个包含函数名`fname`的`interned zend_string`。在这里，是`create`。这个`fname`是我们可以在`PHP`脚本中使用的。而`PHP_ME`的第一个参数`study_coroutine_util`是为了拼凑出：
 
 ```c++
 PHP_METHOD(study_coroutine_util, create)
