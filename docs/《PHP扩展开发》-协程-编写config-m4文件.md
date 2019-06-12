@@ -225,6 +225,8 @@ PHP_ADD_BUILD_DIR($ext_builddir/thirdparty/boost/asm)
 
 （如果无法执行`make.sh`脚本，需要设置它为可执行）
 
+（`make.sh `脚本中的一个命令是`phpize`，`phpize`会使用`autoconf`工具，而`autoconf`工具会根据`config.m4`生成`configure`脚本）
+
 然后，会看到以下输出：
 
 ```shell
