@@ -246,5 +246,5 @@ Study\Coroutine::create(function() {
 
 没报错，参数解析成功。
 
-
+[下一篇：协程创建（三）](./《PHP扩展开发》-协程-协程创建（三）.md)
 

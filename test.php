@@ -1,5 +1,5 @@
 <?php
 
 Study\Coroutine::create(function() {
-    echo 1;
+	echo "success\n";
 });
