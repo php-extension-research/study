@@ -47,3 +47,4 @@ success
 
 ok，执行成功了。所以，我们这里的核心就是`zend_fcall_info`、`zend_fcall_info_cache`和`zend_call_function`。下篇文章将会介绍这三个东西。
 
+[下一篇：协程创建（四）](./《PHP扩展开发》-协程-协程创建（四）.md)
