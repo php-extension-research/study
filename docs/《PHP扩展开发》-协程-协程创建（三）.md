@@ -29,9 +29,12 @@ PHP_METHOD(study_coroutine_util, create)
 ```PHP
 <?php
 
-Study\Coroutine::create(function() {
+function task()
+{
 	echo "success\n";
-});
+}
+
+Study\Coroutine::create('task');
 ```
 
 执行后，结果如下：
