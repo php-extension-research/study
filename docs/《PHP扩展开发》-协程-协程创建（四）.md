@@ -376,6 +376,17 @@ Study\Coroutine::create(function ($a, $b) use ($c, $d) {
 }, 'a', 'b');
 ```
 
+执行结果如下：
+
+```shell
+~/codeDir/cppCode/study # php test.php 
+a
+b
+c
+d
+~/codeDir/cppCode/study # 
+```
+
 我们来调试一下：
 
 ```shell
