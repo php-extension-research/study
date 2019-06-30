@@ -32,6 +32,8 @@ long PHPCoroutine::create(zend_fcall_info_cache *fci_cache, uint32_t argc, zval 
     php_coro_args.fci_cache = fci_cache;
     php_coro_args.argv = argv;
     php_coro_args.argc = argc;
+
+    return 0; // 这里本应该是返回创建的协程id，但是我们还没有到这一步，所以先返回0
 }
 ```
 
@@ -123,6 +125,20 @@ php_coro_task* PHPCoroutine::get_task()
 ```
 
 （限于文章篇幅原因，我打算开其他文章来讲解`get_task`的实现。）
+
+然后，我们在`PHPCoroutine::create`中调用`save_task`：
+
+```cpp
+long PHPCoroutine::create(zend_fcall_info_cache *fci_cache, uint32_t argc, zval *argv)
+{
+    php_coro_args php_coro_args;
+    php_coro_args.fci_cache = fci_cache;
+    php_coro_args.argv = argv;
+    php_coro_args.argc = argc;
+    save_task(get_task());
+    return 0;
+}
+```
 
 最后，我们在创建协程的接口里面调用`Study::PHPCoroutine::create`即可：
 
