@@ -12,6 +12,7 @@ long PHPCoroutine::create(zend_fcall_info_cache *fci_cache, uint32_t argc, zval 
     php_coro_args.argv = argv;
     php_coro_args.argc = argc;
     save_task(get_task());
+    return 0;
 }
 
 php_coro_task* PHPCoroutine::get_task()
