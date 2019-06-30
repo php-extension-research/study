@@ -12,6 +12,8 @@ protected:
 然后，我们本来是可以这么实现`get_task()`的：
 
 ```cpp
+php_coro_task PHPCoroutine::main_task = {0};
+
 php_coro_task* PHPCoroutine::get_task()
 {
     php_coro_task *task = PHPCoroutine::get_current_task();
@@ -24,6 +26,8 @@ php_coro_task* PHPCoroutine::get_task()
 所以，我们应该这么实现`php_coro_task* PHPCoroutine::get_task()`：
 
 ```cpp
+php_coro_task PHPCoroutine::main_task = {0};
+
 php_coro_task* PHPCoroutine::get_task()
 {
     php_coro_task *task = (php_coro_task *) Coroutine::get_current_task();
@@ -53,6 +57,8 @@ protected:
 #include "coroutine.h"
 
 using Study::Coroutine;
+
+Coroutine* Coroutine::current = nullptr;
 
 void* Coroutine::get_current_task()
 {
