@@ -178,5 +178,5 @@ Segmentation fault
 
 很正常，因为我们在`PHPCoroutine::get_task`中返回的是一个空指针，所以在执行`PHPCoroutine::save_vm_stack`的时候当然会报`Segmentation fault`的错误。
 
-
+[下一篇：协程创建（六）](./《PHP扩展开发》-协程-协程创建（六）.md)
 

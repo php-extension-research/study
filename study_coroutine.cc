@@ -1,6 +1,7 @@
 #include "study_coroutine.h"
 
-using Study::PHPCoroutine;
+using study::PHPCoroutine;
+using study::Coroutine;
 
 long PHPCoroutine::create(zend_fcall_info_cache *fci_cache, uint32_t argc, zval *argv)
 {
@@ -13,7 +14,8 @@ long PHPCoroutine::create(zend_fcall_info_cache *fci_cache, uint32_t argc, zval 
 
 php_coro_task* PHPCoroutine::get_task()
 {
-    return nullptr;
+    php_coro_task *task = (php_coro_task *) Coroutine::get_current_task();
+    return task ? task : &main_task;
 }
 
 void PHPCoroutine::save_task(php_coro_task *task)
