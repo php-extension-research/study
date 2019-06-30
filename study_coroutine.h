@@ -21,7 +21,7 @@ struct php_coro_task
     zend_execute_data *execute_data; // current coroutine stack frame
 };
 
-namespace study
+namespace Study
 {
 class PHPCoroutine
 {

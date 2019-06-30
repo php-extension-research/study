@@ -1,6 +1,6 @@
 #include "coroutine.h"
 
-using study::Coroutine;
+using Study::Coroutine;
 
 Coroutine* Coroutine::current = nullptr;
 

@@ -1,6 +1,6 @@
 #include "study_coroutine.h"
 
-using study::PHPCoroutine;
+using Study::PHPCoroutine;
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_create, 0, 0, 1)
     ZEND_ARG_CALLABLE_INFO(0, func, 0)

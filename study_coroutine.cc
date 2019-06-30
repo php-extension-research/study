@@ -1,7 +1,7 @@
 #include "study_coroutine.h"
 
-using study::PHPCoroutine;
-using study::Coroutine;
+using Study::PHPCoroutine;
+using Study::Coroutine;
 
 php_coro_task PHPCoroutine::main_task = {0};
 

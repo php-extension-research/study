@@ -3,7 +3,7 @@
 
 #include "context.h"
 
-namespace study
+namespace Study
 {
 class Coroutine
 {
