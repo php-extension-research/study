@@ -2,9 +2,11 @@
 
 using study::Coroutine;
 
+Coroutine* Coroutine::current = nullptr;
+
 void* Coroutine::get_current_task()
 {
-    return Coroutine::current ? Coroutine::current->get_task() : nullptr;
+    return current ? current->get_task() : nullptr;
 }
 
 void* Coroutine::get_task()

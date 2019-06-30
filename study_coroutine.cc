@@ -3,6 +3,8 @@
 using study::PHPCoroutine;
 using study::Coroutine;
 
+php_coro_task PHPCoroutine::main_task = {0};
+
 long PHPCoroutine::create(zend_fcall_info_cache *fci_cache, uint32_t argc, zval *argv)
 {
     php_coro_args php_coro_args;
