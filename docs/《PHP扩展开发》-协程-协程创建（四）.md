@@ -360,9 +360,114 @@ $22 = "b"
 (gdb) 
 ```
 
+那我如果给创建协程的接口传递一个匿名函数会这么样呢？`PHP`脚本如下：
+
+```php
+<?php
+
+$c = 'c';
+$d = 'd';
+
+Study\Coroutine::create(function ($a, $b) use ($c, $d) {
+	echo $a . PHP_EOL;
+	echo $b . PHP_EOL;
+	echo $c . PHP_EOL;
+	echo $d . PHP_EOL;
+}, 'a', 'b');
+```
+
+我们来调试一下：
+
+```shell
+~/codeDir/cppCode/study # cgdb php
+GNU gdb (GDB) 8.2
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-alpine-linux-musl".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from php...(no debugging symbols found)...done.
+(gdb) 
+```
+
+我们在`zim_study_coroutine_util_create`出打断点：
+
+```shell
+(gdb) b zim_study_coroutine_util_create
+Breakpoint 1 at 0x7ffff78d62e0: file /root/codeDir/cppCode/study/study_coroutine_util.cc, line 10.
+(gdb) 
+```
+
+然后执行：
+
+```shell
+(gdb) r test.php
+Starting program: /usr/local/bin/php test.php
+
+Breakpoint 1, zim_study_coroutine_util_create (execute_data=0x7ffff761d090, return_value=0x7fffffffb0b0) at /root/codeDir/cppCode/study/study_coroutine_util.cc:10
+(gdb)   
+```
+
+```cpp
+ 9│ PHP_METHOD(study_coroutine_util, create)
+10├>{
+11│     zend_fcall_info fci = empty_fcall_info;
+12│     zend_fcall_info_cache fcc = empty_fcall_info_cache;
+13│     zval result;
+14│
+15│     ZEND_PARSE_PARAMETERS_START(1, -1)
+16│         Z_PARAM_FUNC(fci, fcc)
+17│         Z_PARAM_VARIADIC('*', fci.params, fci.param_count)
+18│     ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
+19│
+20│     fci.retval = &result;
+21│     if (zend_call_function(&fci, &fcc) != SUCCESS) {
+22│         return;
+23│     }
+24│
+25│     *return_value = result;
+26│ }
+```
+
+我们执行到`20`行之前：
+
+```shell
+(gdb) u 20
+zim_study_coroutine_util_create (execute_data=0x7ffff761d090, return_value=0x7fffffffb0b0) at /root/codeDir/cppCode/study/study_coroutine_util.cc:20
+(gdb) 
+```
+
+此时，我们来查看一下`fci.function_name`：
+
+```shell
+(gdb) p fci.function_name 
+$1 = {value = {lval = 140737344071552, dval = 6.9533486792693069e-310, counted = 0x7ffff7666780, str = 0x7ffff7666780, arr = 0x7ffff7666780, obj = 0x7ffff7666780, res = 0x7ffff7666780, ref = 0x7ffff766678
+0, ast = 0x7ffff7666780, zv = 0x7ffff7666780, ptr = 0x7ffff7666780, ce = 0x7ffff7666780, func = 0x7ffff7666780, ww = {w1 = 4150683520, w2 = 32767}}, u1 = {v = {type = 8 '\b', type_flags = 1 '\001', u = {c
+all_info = 0, extra = 0}}, type_info = 264}, u2 = {next = 0, cache_slot = 0, opline_num = 0, lineno = 0, num_args = 0, fe_pos = 0, fe_iter_idx = 0, access_flags = 0, property_guard = 0, constant_flags = 0
+, extra = 0}}
+(gdb) 
+```
+
+因为`fci.function_name.u1.v.type`的值为8，所以它是一个对象，因为我们传递了一个闭包进去。我们通过打印如下值来进行确认：
+
+```shell
+(gdb) p /t fcc.function_handler.op_array.fn_flags
+$4 = 1000000100000000000000000000
+(gdb) 
+```
+
+我们看到了第`21`位为`1`，所以这是一个闭包。
+
 OK，分析完毕。
-
-
 
 
 
