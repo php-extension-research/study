@@ -5,6 +5,7 @@ using Study::Coroutine;
 Coroutine* Coroutine::current = nullptr;
 long Coroutine::last_cid = 0;
 std::unordered_map<long, Coroutine*> Coroutine::coroutines;
+size_t Coroutine::stack_size = DEFAULT_C_STACK_SIZE;
 
 void* Coroutine::get_current_task()
 {

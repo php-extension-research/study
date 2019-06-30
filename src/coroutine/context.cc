@@ -1,15 +1,11 @@
 #include "context.h"
 #include "study.h"
 
-
-using Study::Context;
+using namespace Study;
 
 Context::Context(size_t stack_size, coroutine_func_t fn, void* private_data) :
         fn_(fn), stack_size_(stack_size), private_data_(private_data)
 {
-#ifdef SW_CONTEXT_PROTECT_STACK_PAGE
-    protect_page_ = 0;
-#endif
     end_ = false;
     swap_ctx_ = nullptr;
 
