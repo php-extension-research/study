@@ -23,7 +23,6 @@ protected:
     char* stack_;
     uint32_t stack_size_;
     void *private_data_;
-    bool end_;
 };
 }
 

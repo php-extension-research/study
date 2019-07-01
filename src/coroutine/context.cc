@@ -6,7 +6,6 @@ using namespace Study;
 Context::Context(size_t stack_size, coroutine_func_t fn, void* private_data) :
         fn_(fn), stack_size_(stack_size), private_data_(private_data)
 {
-    end_ = false;
     swap_ctx_ = nullptr;
 
     stack_ = (char*) malloc(stack_size_);
@@ -31,6 +30,5 @@ void Context::context_func(void *arg)
 {
     Context *_this = (Context *) arg;
     _this->fn_(_this->private_data_);
-    _this->end_ = true;
     _this->swap_out();
 }
