@@ -35,7 +35,7 @@ protected:
         coroutines[cid] = this;
     }
 
-    inline long run()
+    long run()
     {
         long cid = this->cid;
         origin = current;
