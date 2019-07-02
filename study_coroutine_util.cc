@@ -9,6 +9,10 @@ static std::unordered_map<long, Coroutine *> user_yield_coros;
 ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_void, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_resume, 0, 0, 1)
+    ZEND_ARG_INFO(0, cid)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_create, 0, 0, 1)
     ZEND_ARG_CALLABLE_INFO(0, func, 0)
 ZEND_END_ARG_INFO()
@@ -36,10 +40,27 @@ PHP_METHOD(study_coroutine_util, yield)
     RETURN_TRUE;
 }
 
+PHP_METHOD(study_coroutine_util, resume)
+{
+    zend_long cid = 0;
+
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+        Z_PARAM_LONG(cid)
+    ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
+
+    auto coroutine_iterator = user_yield_coros.find(cid);
+
+    Coroutine* co = coroutine_iterator->second;
+    user_yield_coros.erase(cid);
+    co->resume();
+    RETURN_TRUE;
+}
+
 static const zend_function_entry study_coroutine_util_methods[] =
 {
     PHP_ME(study_coroutine_util, create, arginfo_study_coroutine_create, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_ME(study_coroutine_util, yield, arginfo_study_coroutine_void, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(study_coroutine_util, resume, arginfo_study_coroutine_resume, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_FE_END
 };
 

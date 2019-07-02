@@ -19,6 +19,7 @@ public:
     static Coroutine* get_current();
     void set_task(void *_task);
     void yield();
+    void resume();
 
     inline long get_cid()
     {

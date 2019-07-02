@@ -37,3 +37,10 @@ void Coroutine::yield()
     current = origin;
     ctx.swap_out();
 }
+
+void Coroutine::resume()
+{
+    origin = current;
+    current = this;
+    ctx.swap_in();
+}
