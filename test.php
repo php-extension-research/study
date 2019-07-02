@@ -1,19 +1,20 @@
 <?php
 
-function task($n, $arg)
+function task($arg)
 {
-	echo "coroutine [$n] create" . PHP_EOL;
+	$cid = Study\Coroutine::getCid();
+	echo "coroutine [{$cid}] create" . PHP_EOL;
 	Study\Coroutine::yield();
-	echo "coroutine [$n] be resumed" . PHP_EOL;
+	echo "coroutine [{$cid}] create" . PHP_EOL;
 }
 
 echo "main coroutine" . PHP_EOL;
-Study\Coroutine::create('task', 1, 'a');
+$cid1 = Study\Coroutine::create('task', 'a');
 echo "main coroutine" . PHP_EOL;
-Study\Coroutine::create('task', 2, 'b');
+$cid2 = Study\Coroutine::create('task', 'b');
 echo "main coroutine" . PHP_EOL;
 
-Study\Coroutine::resume(1);
+Study\Coroutine::resume($cid1);
 echo "main coroutine" . PHP_EOL;
-Study\Coroutine::resume(2);
+Study\Coroutine::resume($cid2);
 echo "main coroutine" . PHP_EOL;

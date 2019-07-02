@@ -157,7 +157,7 @@ main coroutine
 
 符合我们的预期。
 
-
+[下一篇：协程getCid](./《PHP扩展开发》-协程-协程getCid.md)
 
 
 

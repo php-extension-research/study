@@ -36,3 +36,5 @@ PHP版本：7.3.5
 
 [15、协程resume](./docs/《PHP扩展开发》-协程-协程resume.md)
 
+[16、协程getCid](./docs/《PHP扩展开发》-协程-协程getCid.md)
+
