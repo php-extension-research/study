@@ -50,6 +50,11 @@ PHP_METHOD(study_coroutine_util, resume)
     ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
 
     auto coroutine_iterator = user_yield_coros.find(cid);
+    if (coroutine_iterator == user_yield_coros.end())
+    {
+        php_error_docref(NULL, E_WARNING, "resume error");
+        RETURN_FALSE;
+    }
 
     Coroutine* co = coroutine_iterator->second;
     user_yield_coros.erase(cid);
