@@ -1,6 +1,13 @@
 #include "study_coroutine.h"
+#include <unordered_map>
 
 using Study::PHPCoroutine;
+using Study::Coroutine;
+
+static std::unordered_map<long, Coroutine *> user_yield_coros;
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_void, 0, 0, 0)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_create, 0, 0, 1)
     ZEND_ARG_CALLABLE_INFO(0, func, 0)
@@ -21,9 +28,18 @@ PHP_METHOD(study_coroutine_util, create)
     PHPCoroutine::create(&fcc, fci.param_count, fci.params);
 }
 
+PHP_METHOD(study_coroutine_util, yield)
+{
+    Coroutine* co = Coroutine::get_current();
+    user_yield_coros[co->get_cid()] = co;
+    co->yield();
+    RETURN_TRUE;
+}
+
 static const zend_function_entry study_coroutine_util_methods[] =
 {
     PHP_ME(study_coroutine_util, create, arginfo_study_coroutine_create, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(study_coroutine_util, yield, arginfo_study_coroutine_void, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_FE_END
 };
 

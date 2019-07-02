@@ -31,3 +31,9 @@ long Coroutine::create(coroutine_func_t fn, void* args)
 {
     return (new Coroutine(fn, args))->run();
 }
+
+void Coroutine::yield()
+{
+    current = origin;
+    ctx.swap_out();
+}

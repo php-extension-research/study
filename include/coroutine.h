@@ -18,6 +18,12 @@ public:
     void* get_task();
     static Coroutine* get_current();
     void set_task(void *_task);
+    void yield();
+
+    inline long get_cid()
+    {
+        return cid;
+    }
 
 protected:
     Coroutine *origin;
