@@ -13,6 +13,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_resume, 0, 0, 1)
     ZEND_ARG_INFO(0, cid)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_isExist, 0, 0, 1)
+    ZEND_ARG_INFO(0, cid)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_create, 0, 0, 1)
     ZEND_ARG_CALLABLE_INFO(0, func, 0)
 ZEND_END_ARG_INFO()
@@ -68,12 +72,27 @@ PHP_METHOD(study_coroutine_util, getCid)
     RETURN_LONG(co->get_cid());
 }
 
+PHP_METHOD(study_coroutine_util, isExist)
+{
+    zend_long cid = 0;
+    bool is_exist;
+
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+        Z_PARAM_LONG(cid)
+    ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
+
+    auto coroutine_iterator = Coroutine::coroutines.find(cid);
+    is_exist = (coroutine_iterator != Coroutine::coroutines.end());
+    RETURN_BOOL(is_exist);
+}
+
 static const zend_function_entry study_coroutine_util_methods[] =
 {
     PHP_ME(study_coroutine_util, create, arginfo_study_coroutine_create, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_ME(study_coroutine_util, yield, arginfo_study_coroutine_void, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_ME(study_coroutine_util, resume, arginfo_study_coroutine_resume, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_ME(study_coroutine_util, getCid, arginfo_study_coroutine_void, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(study_coroutine_util, isExist, arginfo_study_coroutine_isExist, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_FE_END
 };
 

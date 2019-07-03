@@ -169,7 +169,7 @@ main coroutine
 
 OK，符合预期。
 
-
+[下一篇：协程isExist](./《PHP扩展开发》-协程-协程isExist.md)
 
 
 

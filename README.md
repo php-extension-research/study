@@ -41,3 +41,6 @@ PHP版本：7.3.5
 [17、修复一些bug（一）](./docs/《PHP扩展开发》-协程-修复一些bug（一）.md)
 
 [18、修复一些bug（二）](./docs/《PHP扩展开发》-协程-修复一些bug（二）.md)
+
+[19、协程isExist](./docs/《PHP扩展开发》-协程-协程isExist.md)
+
