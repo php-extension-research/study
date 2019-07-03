@@ -30,5 +30,6 @@ void Context::context_func(void *arg)
 {
     Context *_this = (Context *) arg;
     _this->fn_(_this->private_data_);
+    _this->end_ = true;
     _this->swap_out();
 }

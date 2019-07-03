@@ -48,6 +48,12 @@ protected:
         origin = current;
         current = this;
         ctx.swap_in();
+        if (ctx.is_end())
+        {
+            current = origin;
+            coroutines.erase(cid);
+            delete this;
+        }
         return cid;
     }
 };

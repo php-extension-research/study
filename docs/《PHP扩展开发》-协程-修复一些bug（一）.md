@@ -252,7 +252,7 @@ Warning: Study\Coroutine::resume(): resume error in /root/codeDir/cppCode/study/
 
 OK，我们成功的报出了`Warning`，不至于让脚本因为无法`resume`一个协程而停止执行
 
-
+[下一篇：修复一些bug（二）](./《PHP扩展开发》-协程-修复一些bug（二）.md)
 
 
 

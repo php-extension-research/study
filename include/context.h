@@ -15,6 +15,10 @@ public:
     bool swap_in();
     bool swap_out();
     static void context_func(void* arg); // coroutine entry function
+    inline bool is_end()
+    {
+        return end_;
+    }
 
 protected:
     coroutine_context_t ctx_;
@@ -23,6 +27,7 @@ protected:
     char* stack_;
     uint32_t stack_size_;
     void *private_data_;
+    bool end_ = false;
 };
 }
 

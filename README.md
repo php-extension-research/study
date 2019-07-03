@@ -39,3 +39,5 @@ PHP版本：7.3.5
 [16、协程getCid](./docs/《PHP扩展开发》-协程-协程getCid.md)
 
 [17、修复一些bug（一）](./docs/《PHP扩展开发》-协程-修复一些bug（一）.md)
+
+[18、修复一些bug（二）](./docs/《PHP扩展开发》-协程-修复一些bug（二）.md)
