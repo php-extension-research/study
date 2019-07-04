@@ -70,10 +70,11 @@ public:
     static void defer(php_study_fci_fcc *defer_fci_fcc);
 ```
 
-又因为我们的`$callable`是在协程即将死亡的时候执行的，所以肯定是在`PHP`协程入口这个函数里面执行`$callable`，因此，我们需要给`php_coro_args`这个结构增加一个属性来传递我们的`fci`和`fcc`。这里，我们使用栈来保存`php_study_fci_fcc *`。
+又因为我们的`$callable`是在协程即将死亡的时候执行的，所以肯定是在`PHP`协程入口这个函数里面执行`$callable`，因此，我们需要给`php_coro_args`这个结构增加一个属性来传递我们的`fci`和`fcc`。这里，我们使用栈来保存`php_study_fci_fcc *`（记得`include <stack>`一下）。
 
 ```cpp
-// save the coroutine stack info
+#include <stack>
+
 struct php_coro_task
 {
     // 省略其他的成员
