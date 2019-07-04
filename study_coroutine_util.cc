@@ -21,6 +21,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_create, 0, 0, 1)
     ZEND_ARG_CALLABLE_INFO(0, func, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_defer, 0, 0, 1)
+    ZEND_ARG_CALLABLE_INFO(0, func, 0)
+ZEND_END_ARG_INFO()
+
 static PHP_METHOD(study_coroutine_util, create);
 
 PHP_METHOD(study_coroutine_util, create)
@@ -90,6 +94,24 @@ PHP_METHOD(study_coroutine_util, isExist)
     RETURN_BOOL(is_exist);
 }
 
+PHP_METHOD(study_coroutine_util, defer)
+{
+    zend_fcall_info fci = empty_fcall_info;
+    zend_fcall_info_cache fcc = empty_fcall_info_cache;
+    php_study_fci_fcc *defer_fci_fcc;
+
+    defer_fci_fcc = (php_study_fci_fcc *)emalloc(sizeof(php_study_fci_fcc));
+
+    ZEND_PARSE_PARAMETERS_START(1, -1)
+        Z_PARAM_FUNC(fci, fcc)
+    ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
+
+    defer_fci_fcc->fci = fci;
+    defer_fci_fcc->fcc = fcc;
+
+    PHPCoroutine::defer(defer_fci_fcc);
+}
+
 static const zend_function_entry study_coroutine_util_methods[] =
 {
     PHP_ME(study_coroutine_util, create, arginfo_study_coroutine_create, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
@@ -97,6 +119,7 @@ static const zend_function_entry study_coroutine_util_methods[] =
     PHP_ME(study_coroutine_util, resume, arginfo_study_coroutine_resume, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_ME(study_coroutine_util, getCid, arginfo_study_coroutine_void, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_ME(study_coroutine_util, isExist, arginfo_study_coroutine_isExist, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(study_coroutine_util, defer, arginfo_study_coroutine_defer, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_FE_END
 };
 
