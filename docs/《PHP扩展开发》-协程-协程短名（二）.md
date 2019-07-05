@@ -3,37 +3,62 @@
 我们还是觉得创建协程的方法名太长了，我们还想再缩短一下，变成这样：
 
 ```php
-sco::create($callable);
+sgo($callable);
 ```
 
-OK，首先，我们在`study_coroutine_util_methods`里面新增一行：
+OK，首先，我们把：
 
 ```cpp
-PHP_MALIAS(study_coroutine_util, sco, create, arginfo_study_coroutine_defer, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+PHP_METHOD(study_coroutine_util, create)
 ```
 
-这个宏展开如下：
+修改为：
 
 ```cpp
-#define PHP_MALIAS      ZEND_MALIAS
-
-#define ZEND_MALIAS(classname, name, alias, arg_info, flags) \
-                                                    ZEND_FENTRY(name, ZEND_MN(classname##_##alias), arg_info, flags)
+PHP_FUNCTION(study_coroutine_create)
 ```
 
-所以，我们不要这么写：
+并且删除我们之前在`study_coroutine_util.cc`文件中声明的：
 
 ```cpp
-PHP_MALIAS(study_coroutine_util, create, sco, arginfo_study_coroutine_defer, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+static PHP_METHOD(study_coroutine_util, create);
 ```
 
-否则宏展开将会得到如下内容：
+也就是说，现在我们原来的方法改成了函数。
+
+然后，我们在`study_coroutine_util_methods`中新增：
 
 ```cpp
-ZEND_FENTRY(name, ZEND_MN(study_coroutine_util##_##sco), arg_info, flags)
+ZEND_FENTRY(create, ZEND_FN(study_coroutine_create), arginfo_study_coroutine_create, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC) // ZEND_FENTRY这行是新增的
 ```
 
-很显然，`zim_study_coroutine_util_sco`是没有定义的，所以会报错。这一点大家要注意了。别写反了。
+并且删除：
+
+```cpp
+PHP_ME(study_coroutine_util, create, arginfo_study_coroutine_create, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+```
+
+然后，我们在`study.cc`中声明这个函数，以及参数：：
+
+```cpp
+ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_create, 0, 0, 1)
+    ZEND_ARG_CALLABLE_INFO(0, func, 0)
+ZEND_END_ARG_INFO()
+
+PHP_FUNCTION(study_coroutine_create);
+```
+
+然后在`study_functions`里面注册这个函数：
+
+```cpp
+const zend_function_entry study_functions[] = {
+    PHP_FE(study_coroutine_create, arginfo_study_coroutine_create)
+    PHP_FALIAS(sgo, study_coroutine_create, arginfo_study_coroutine_create)
+    PHP_FE_END
+};
+```
+
+`PHP_FALIAS`的作用就是用来取别名的，这里换成了我们需要的短名`sgo`。
 
 OK，我们编译、安装：
 
@@ -77,7 +102,7 @@ function task()
     echo "task coroutine end" . PHP_EOL;
 }
 
-$cid1 = sco::create('task');
+$cid1 = sgo('task');
 ```
 
 执行：

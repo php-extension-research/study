@@ -24,4 +24,4 @@ function task()
     echo "task coroutine end" . PHP_EOL;
 }
 
-$cid1 = sco::create('task');
+$cid1 = sgo('task');
