@@ -6,7 +6,7 @@
 SCo::create()
 ```
 
-的风格。
+的风格。因为有的同学自己装了`Swoole`，所以，我这里不写成短名`Co`，而是写成`SCo`。
 
 我们修改`study_coroutine_util.cc`文件里的`study_coroutine_util_init()`函数，变为：
 
@@ -15,7 +15,7 @@ void study_coroutine_util_init()
 {
     INIT_NS_CLASS_ENTRY(study_coroutine_ce, "Study", "Coroutine", study_coroutine_util_methods);
     study_coroutine_ce_ptr = zend_register_internal_class(&study_coroutine_ce TSRMLS_CC); // Registered in the Zend Engine
-    zend_register_class_alias("Co", study_coroutine_ce_ptr); // 新增的代码
+    zend_register_class_alias("SCo", study_coroutine_ce_ptr); // 新增的代码
 }
 ```
 
