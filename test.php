@@ -18,10 +18,10 @@ function deferFunc3()
 function task()
 {
     echo "task coroutine start" . PHP_EOL;
-    Co::defer('deferFunc1');
-    Co::defer('deferFunc2');
-    Co::defer('deferFunc3');
+    SCo::defer('deferFunc1');
+    SCo::defer('deferFunc2');
+    SCo::defer('deferFunc3');
     echo "task coroutine end" . PHP_EOL;
 }
 
-$cid1 = Co::create('task');
+$cid1 = SCo::create('task');

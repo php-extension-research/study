@@ -3,7 +3,7 @@
 之前我们调用协程类提供的接口，我们需要些很长的命名空间`Study::Coroutine`。现在我们来优化一下，希望变成这样：
 
 ```php
-Co::create()
+SCo::create()
 ```
 
 的风格。
@@ -48,13 +48,13 @@ function deferFunc3()
 function task()
 {
     echo "task coroutine start" . PHP_EOL;
-    Co::defer('deferFunc1');
-    Co::defer('deferFunc2');
-    Co::defer('deferFunc3');
+    SCo::defer('deferFunc1');
+    SCo::defer('deferFunc2');
+    SCo::defer('deferFunc3');
     echo "task coroutine end" . PHP_EOL;
 }
 
-$cid1 = Co::create('task');
+$cid1 = SCo::create('task');
 ```
 
 执行：
