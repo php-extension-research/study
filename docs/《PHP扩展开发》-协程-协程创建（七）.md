@@ -158,6 +158,12 @@ page->prev = NULL;
 
 这段代码的作用是把我们的堆模拟成栈的行为。因为按照`cpp`的内存模型，栈的地址空间一般是由高地址往低地址增长的。
 
+其中：
+
+`page->top`的作用是指向目前的栈顶，这个top会随着栈里面的数据而不断的变化。压栈，`top`往靠近`end`的方向移动个；出栈，`top`往远离`end`的方向移动。
+
+`page->end`的作用就是用来标识`PHP`栈的边界，以防`'栈溢出'`。这个`page->end`可以作为是否要扩展`PHP`栈的依据。
+
 ```cpp
 EG(vm_stack) = page;
 EG(vm_stack)->top++;
@@ -179,7 +185,7 @@ call = zend_vm_stack_push_call_frame(
 );
 ```
 
-这段代码的作用是分配一个`zend_execute_data`，分配一块用于当前作用域的内存空间。因为用户空间的函数会被编译成`zend_op_array`，`zend_op_array`是在`zend_execute_data`上执行的。而我们上面的`fci_cache.function_handler`是一个`zend_function`，这个`zend_function`是一个`union`，里面包含了一些函数的公共信息以及具体的函数类型，用户定义的函数或者内部函数（内部函数指的是`PHP`内置的函数或者`C`扩展提供的函数）：
+这段代码的作用是分配一个`zend_execute_data`，分配一块用于当前作用域的内存空间。因为用户空间的函数会被编译成`zend_op_array`，`zend_op_array`是在`zend_execute_data`上通过`opline`来执行的。而我们上面的`fci_cache.function_handler`是一个`zend_function`，这个`zend_function`是一个`union`，里面包含了一些函数的公共信息以及具体的函数类型，用户定义的函数或者内部函数（内部函数指的是`PHP`内置的函数或者`C`扩展提供的函数）：
 
 ```cpp
 union _zend_function {
@@ -209,6 +215,8 @@ union _zend_function {
 zend_op_array op_array
 ```
 
+（这段代码其实和`PHP`源码的`zend_execute`函数很类似，有兴趣的同学可以读一读这个函数）
+
 因为，我们目前只打算支持用户自定义的函数协程化。并且，我们现在不打算支持类对象方法的协程化。并且我们只打算支持`PHP7.3.5`，并且不打算支持传递引用类型的参数。
 
 ```cpp
@@ -236,6 +244,30 @@ task->co->set_task((void *) task);
 ```
 
 把当前的协程栈信息保存在`task`里面。
+
+```cpp
+if (func->type == ZEND_USER_FUNCTION)
+{
+  ZVAL_UNDEF(retval);
+  EG(current_execute_data) = NULL;
+  zend_init_func_execute_data(call, &func->op_array, retval);
+  zend_execute_ex(EG(current_execute_data));
+}
+```
+
+`zend_init_func_execute_data`的作用是去初始化`zend_execute_data`，会初始化以下字段：
+
+```cpp
+* 会初始化zend_execute_data的以下字段：
+ * 1、zend_execute_data.opline，实际上就是zend_op_array.opcodes
+ * 2、zend_execute_data.call
+ * 3、zend_execute_data.return_value
+ 
+* 会设置executor_globals的以下字段：
+ * 1、executor_globals.current_execute_data
+```
+
+`zend_execute_ex`的作用就是去循环执行`executor_globals.current_execute_data`指向的`opline`。此时，这些`opline`就是我们用户空间传递的函数。
 
 OK，实现完了`PHPCoroutine::create_func`之后，我们接着实现`Study::Coroutine::create`这个方法：
 
