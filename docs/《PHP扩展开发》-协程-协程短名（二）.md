@@ -108,18 +108,15 @@ $cid1 = sgo('task');
 执行：
 
 ```shell
-~/codeDir/cppCode/study # php test.php 
+~/codeDir/cppCode/study # php test.php
 task coroutine start
 task coroutine end
 in defer deferFunc3
 in defer deferFunc2
 in defer deferFunc1
-~/codeDir/cppCode/study # 
+~/codeDir/cppCode/study #
 ```
 
 OK，符合预期。
 
-
-
-
-
+[下一篇：引入libuv](./《PHP扩展开发》-协程-引入libuv.md)
