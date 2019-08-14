@@ -121,7 +121,7 @@ STUDY_SHARED_LIBADD = -Wl,-rpath,/usr/local/lib/ -L/usr/local/lib/ -luv
 
 我们会看到这样的两行，里面就会去链接我们指定的`libuv.so`。
 
-OK，我们来测试一下我们是否链接成功了。我们在文件`study.cc`里面增加如下`PHP`接口：
+OK，我们来测试一下我们是否可以链接成功。我们在文件`study.cc`里面增加如下`PHP`接口：
 
 ```c++
 // 新增加的内容
