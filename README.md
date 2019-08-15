@@ -67,3 +67,5 @@ PHP版本：7.3.5
 [25、sleep（一）](./docs/《PHP扩展开发》-协程-sleep（一）.md)
 
 [26、sleep（二）](./docs/《PHP扩展开发》-协程-sleep（二）.md)
+
+[27、sleep（三）](./docs/《PHP扩展开发》-协程-sleep（三）.md)

@@ -41,6 +41,7 @@ public:
     static long create(zend_fcall_info_cache *fci_cache, uint32_t argc, zval *argv);
     static void defer(php_study_fci_fcc *defer_fci_fcc);
     static int sleep(double seconds);
+    static int scheduler();
 
 protected:
     static php_coro_task main_task;

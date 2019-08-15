@@ -143,3 +143,10 @@ int PHPCoroutine::sleep(double seconds)
     Coroutine::sleep(seconds);
     return 0;
 }
+
+int PHPCoroutine::scheduler()
+{
+    while (1)
+    {
+    }
+}

@@ -9,3 +9,5 @@ $cid = Sgo(function () {
 });
 
 echo "main co" . PHP_EOL;
+
+SCo::scheduler();
