@@ -4,7 +4,6 @@ $t1 = time();
 
 $cid = Sgo(function () {
     echo "before sleep" . PHP_EOL;
-    // SCo::yield();
     SCo::sleep(1);
     echo "after sleep" . PHP_EOL;
 });
