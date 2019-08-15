@@ -188,3 +188,5 @@ repeat count:5
 ```
 
 我们发现，会有定时器的效果，每隔一秒就会去执行`callback`函数。
+
+[下一篇：sleep（一）](./《PHP扩展开发》-协程-sleep（一）.md)

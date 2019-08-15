@@ -1,7 +1,9 @@
 #include "study_coroutine.h"
+#include <iostream>
 
 using Study::PHPCoroutine;
 using Study::Coroutine;
+using namespace std;
 
 php_coro_task PHPCoroutine::main_task = {0};
 
@@ -134,4 +136,10 @@ void PHPCoroutine::defer(php_study_fci_fcc *defer_fci_fcc)
         task->defer_tasks = new std::stack<php_study_fci_fcc *>;
     }
     task->defer_tasks->push(defer_fci_fcc);
+}
+
+int PHPCoroutine::sleep(double seconds)
+{
+    std::cout << seconds << endl;
+    return 0;
 }

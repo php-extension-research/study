@@ -64,3 +64,5 @@ PHP版本：7.3.5
 
 [24、引入libuv](./docs/《PHP扩展开发》-协程-引入libuv.md)
 
+[25、sleep（一）](./docs/《PHP扩展开发》-协程-sleep（一）.md)
+

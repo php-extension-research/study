@@ -24,32 +24,6 @@ ZEND_END_ARG_INFO()
 
 PHP_FUNCTION(study_coroutine_create);
 
-#include <stdio.h>
-#include <iostream>
-#include <uv.h>
-
-using namespace std;
-
-uint64_t repeat = 0;
-
-static void callback(uv_timer_t *handle)
-{
-    repeat = repeat + 1;
-    cout << "repeat count:" << repeat << endl;
-}
-
-PHP_FUNCTION(study_timer_test)
-{
-	uv_loop_t *loop = uv_default_loop();
-    
-    uv_timer_t timer_req;
-    
-    uv_timer_init(loop, &timer_req);
-    
-    uv_timer_start(&timer_req, callback, 1000, 1000);
-	uv_run(loop, UV_RUN_DEFAULT);
-}
-
 PHP_MINIT_FUNCTION(study)
 {
 	study_coroutine_util_init();
@@ -81,7 +55,6 @@ PHP_MINFO_FUNCTION(study)
 const zend_function_entry study_functions[] = {
 	PHP_FE(study_coroutine_create, arginfo_study_coroutine_create)
 	PHP_FALIAS(sgo, study_coroutine_create, arginfo_study_coroutine_create)
-	PHP_FE(study_timer_test, NULL)
 	PHP_FE_END
 };
 
