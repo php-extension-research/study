@@ -10,13 +10,3 @@ $cid = Sgo(function () {
 });
 
 echo "main co" . PHP_EOL;
-
-while (true)
-{
-    $t2 = time();
-    if ($t2 - $t1 >= 1)
-    {
-        SCo::resume($cid);
-        break;
-    }
-}

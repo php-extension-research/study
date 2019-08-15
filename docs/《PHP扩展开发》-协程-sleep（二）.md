@@ -92,10 +92,18 @@ Segmentation fault
 我们修改我们的测试脚本：
 
 ```php
-~/codeDir/cppCode/study # php test.php 
-before sleep
-main co
-~/codeDir/cppCode/study # 
+<?php
+
+$t1 = time();
+
+$cid = Sgo(function () {
+    echo "before sleep" . PHP_EOL;
+    // SCo::yield();
+    SCo::sleep(1);
+    echo "after sleep" . PHP_EOL;
+});
+
+echo "main co" . PHP_EOL;
 ```
 
 然后执行我们的测试脚本：
