@@ -140,6 +140,6 @@ void PHPCoroutine::defer(php_study_fci_fcc *defer_fci_fcc)
 
 int PHPCoroutine::sleep(double seconds)
 {
-    std::cout << seconds << endl;
+    Coroutine::sleep(seconds);
     return 0;
 }

@@ -115,3 +115,5 @@ Warning: Study\Coroutine::sleep(): Timer must be greater than or equal to 0.001 
 
 接下来的文章，我将会继续带着大家去实现`PHPCoroutine::sleep`。
 
+[下一篇：sleep（二）](./《PHP扩展开发》-协程-sleep（二）.md)
+
