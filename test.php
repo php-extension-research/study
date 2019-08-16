@@ -1,11 +1,15 @@
 <?php
 
-$t1 = time();
-
-$cid = Sgo(function () {
-    echo "before sleep" . PHP_EOL;
+Sgo(function () {
+    echo "co1 before sleep" . PHP_EOL;
     SCo::sleep(1);
-    echo "after sleep" . PHP_EOL;
+    echo "co1 after sleep" . PHP_EOL;
+});
+
+Sgo(function () {
+    echo "co2 before sleep" . PHP_EOL;
+    SCo::sleep(1);
+    echo "co2 after sleep" . PHP_EOL;
 });
 
 echo "main co" . PHP_EOL;
