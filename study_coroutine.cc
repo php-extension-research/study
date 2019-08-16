@@ -144,9 +144,29 @@ int PHPCoroutine::sleep(double seconds)
     return 0;
 }
 
+typedef enum {
+    UV_CLOCK_PRECISE = 0,  /* Use the highest resolution clock available. */
+    UV_CLOCK_FAST = 1      /* Use the fastest clock with <= 1ms granularity. */
+} uv_clocktype_t;
+
+extern "C" void uv__run_timers(uv_loop_t* loop);
+extern "C" uint64_t uv__hrtime(uv_clocktype_t type);
+extern "C" int uv__next_timeout(const uv_loop_t* loop);
+
 int PHPCoroutine::scheduler()
 {
-    while (1)
+    uv_loop_t* loop = uv_default_loop();
+
+    while (loop->stop_flag == 0)
     {
+        loop->time = uv__hrtime(UV_CLOCK_FAST) / 1000000;
+        uv__run_timers(loop);
+
+        if (uv__next_timeout(loop) < 0)
+        {
+            uv_stop(loop);
+        }
     }
+
+    return 0;
 }
