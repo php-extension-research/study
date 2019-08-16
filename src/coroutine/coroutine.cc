@@ -63,7 +63,7 @@ int Coroutine::sleep(double seconds)
     uv_timer_t timer;
 	timer.data = co;
 	uv_timer_init(uv_default_loop(), &timer);
-	uv_timer_start(&timer, sleep_timeout, seconds, 0);
+	uv_timer_start(&timer, sleep_timeout, seconds * 1000, 0);
    
     co->yield();
     return 0;

@@ -26,7 +26,7 @@ int Coroutine::sleep(double seconds)
     uv_timer_t timer;
     timer.data = co;
     uv_timer_init(uv_default_loop(), &timer);
-    uv_timer_start(&timer, sleep_timeout, seconds, 0);
+    uv_timer_start(&timer, sleep_timeout, seconds * 1000, 0);
    
     co->yield();
     return 0;
@@ -54,7 +54,7 @@ uv_timer_init(uv_default_loop(), &timer);
 用来初始化我们的定时器节点。
 
 ```cpp
-uv_timer_start(&timer, sleep_timeout, seconds, 0);
+uv_timer_start(&timer, sleep_timeout, seconds * 1000, 0);
 ```
 
 用来把这个定时器节点插入到整个定时器堆里面。这里，我们需要明确一点，`libuv`的这个定时器堆是一个最小堆，也就是说，堆顶的定时器节点的`timeout`越小。`uv_timer_start`函数里面会把定时器节点`timer`插入到整个定时器堆里面，并且会根据`timer`的`timeout`调整`timer`在定时器堆里面的位置。
