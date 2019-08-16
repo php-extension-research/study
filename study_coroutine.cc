@@ -144,7 +144,8 @@ int PHPCoroutine::sleep(double seconds)
     return 0;
 }
 
-typedef enum {
+typedef enum
+{
     UV_CLOCK_PRECISE = 0,  /* Use the highest resolution clock available. */
     UV_CLOCK_FAST = 1      /* Use the fastest clock with <= 1ms granularity. */
 } uv_clocktype_t;
