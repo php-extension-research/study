@@ -58,7 +58,8 @@ if test "$PHP_STUDY" != "no"; then
         src/coroutine/context.cc \
         ${STUDY_ASM_DIR}make_${STUDY_CONTEXT_ASM_FILE} \
         ${STUDY_ASM_DIR}jump_${STUDY_CONTEXT_ASM_FILE} \
-        study_server_coro.cc
+        study_server_coro.cc \
+        src/socket.cc
     "
 
     PHP_NEW_EXTENSION(study, $study_source_file, $ext_shared, ,, cxx)

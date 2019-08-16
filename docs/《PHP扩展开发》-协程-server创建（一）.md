@@ -105,3 +105,4 @@ object(Study\Coroutine\Server)#1 (0) {
 
 打印成功。
 
+[下一篇：server创建（二）](./《PHP扩展开发》-协程-server创建（二）.md)
