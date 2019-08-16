@@ -136,6 +136,8 @@ after sleep
 
 我们会发现输出`main co`之后会阻塞`1s`当前协程，然后再输出`after sleep`。这样，我们就实现完了协程的`sleep`接口。
 
+[下一篇：sleep（五）](./《PHP扩展开发》-协程-sleep（五）.md)
+
 
 
 

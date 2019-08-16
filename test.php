@@ -8,7 +8,7 @@ Sgo(function () {
 
 Sgo(function () {
     echo "co2 before sleep" . PHP_EOL;
-    SCo::sleep(1);
+    SCo::sleep(2);
     echo "co2 after sleep" . PHP_EOL;
 });
 
