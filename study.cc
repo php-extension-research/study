@@ -26,50 +26,50 @@ PHP_FUNCTION(study_coroutine_create);
 
 PHP_MINIT_FUNCTION(study)
 {
-	study_coroutine_util_init();
-	study_coroutine_server_coro_init();
-	return SUCCESS;
+    study_coroutine_util_init();
+    study_coroutine_server_coro_init();
+    return SUCCESS;
 }
 
 PHP_MSHUTDOWN_FUNCTION(study)
 {
-	return SUCCESS;
+    return SUCCESS;
 }
 
 PHP_RINIT_FUNCTION(study)
 {
-	return SUCCESS;
+    return SUCCESS;
 }
 
 PHP_RSHUTDOWN_FUNCTION(study)
 {
-	return SUCCESS;
+    return SUCCESS;
 }
 
 PHP_MINFO_FUNCTION(study)
 {
-	php_info_print_table_start();
-	php_info_print_table_header(2, "study support", "enabled");
-	php_info_print_table_end();
+    php_info_print_table_start();
+    php_info_print_table_header(2, "study support", "enabled");
+    php_info_print_table_end();
 }
 
 const zend_function_entry study_functions[] = {
-	PHP_FE(study_coroutine_create, arginfo_study_coroutine_create)
-	PHP_FALIAS(sgo, study_coroutine_create, arginfo_study_coroutine_create)
-	PHP_FE_END
+    PHP_FE(study_coroutine_create, arginfo_study_coroutine_create)
+    PHP_FALIAS(sgo, study_coroutine_create, arginfo_study_coroutine_create)
+    PHP_FE_END
 };
 
 zend_module_entry study_module_entry = {
-	STANDARD_MODULE_HEADER,
-	"study",
-	study_functions,
-	PHP_MINIT(study),
-	PHP_MSHUTDOWN(study),
-	PHP_RINIT(study),
-	PHP_RSHUTDOWN(study),
-	PHP_MINFO(study),
-	PHP_STUDY_VERSION,
-	STANDARD_MODULE_PROPERTIES
+    STANDARD_MODULE_HEADER,
+    "study",
+    study_functions,
+    PHP_MINIT(study),
+    PHP_MSHUTDOWN(study),
+    PHP_RINIT(study),
+    PHP_RSHUTDOWN(study),
+    PHP_MINFO(study),
+    PHP_STUDY_VERSION,
+    STANDARD_MODULE_PROPERTIES
 };
 
 #ifdef COMPILE_DL_STUDY
