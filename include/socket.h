@@ -11,6 +11,7 @@ enum stSocket_type
 
 int stSocket_create(int type);
 int stSocket_bind(int sock, int type, char *host, int port);
+int stSocket_listen(int sock);
 int stSocket_accept(int sock);
 
 #endif	/* SOCKET_H */

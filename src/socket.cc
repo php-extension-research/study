@@ -75,3 +75,15 @@ int stSocket_accept(int sock)
 
     return connfd;
 }
+
+int stSocket_listen(int sock)
+{
+    int ret;
+
+    ret = listen(sock, 512);
+    if (ret < 0)
+    {
+        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+    }
+    return ret;
+}

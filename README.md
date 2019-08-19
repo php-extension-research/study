@@ -79,3 +79,5 @@ PHP版本：7.3.5
 [31、server创建（二）](./docs/《PHP扩展开发》-协程-server创建（二）.md)
 
 [32、server接收请求](./docs/《PHP扩展开发》-协程-server接收请求.md)
+
+[33、server监听的封装](./docs/《PHP扩展开发》-协程-server监听的封装.md)
