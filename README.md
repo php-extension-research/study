@@ -81,3 +81,6 @@ PHP版本：7.3.5
 [32、server接收请求](./docs/《PHP扩展开发》-协程-server接收请求.md)
 
 [33、server监听的封装](./docs/《PHP扩展开发》-协程-server监听的封装.md)
+
+[34、server接收数据](./docs/《PHP扩展开发》-协程-server接收数据.md)
+

@@ -68,3 +68,5 @@ object(Study\Coroutine\Server)#1 (3) {
 ```
 
 `OK`，符合预期。
+
+[下一篇：server接收数据](./《PHP扩展开发》-协程-server接收数据.md)
