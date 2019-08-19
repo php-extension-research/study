@@ -120,6 +120,7 @@ int stSocket_bind(int sock, int type, char *host, int port)
 ```cpp
 sock = stSocket_create(ST_SOCK_TCP);
 stSocket_bind(sock, ST_SOCK_TCP, Z_STRVAL_P(zhost), zport);
+listen(sockfd, 512);
 
 zend_update_property_long(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("sock"), sock);
 zend_update_property_string(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("host"), Z_STRVAL_P(zhost));
