@@ -1,5 +1,8 @@
 #include "study_server_coro.h"
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_void, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_server_coro_construct, 0, 0, 2)
     ZEND_ARG_INFO(0, host)
     ZEND_ARG_INFO(0, port)
@@ -31,9 +34,20 @@ PHP_METHOD(study_coroutine_server_coro, __construct)
     zend_update_property_long(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("port"), zport);
 }
 
+PHP_METHOD(study_coroutine_server_coro, accept)
+{
+    zval *zsock;
+    int connfd;
+
+    zsock = st_zend_read_property(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("sock"), 0);
+    connfd = stSocket_accept(Z_LVAL_P(zsock));
+    RETURN_LONG(connfd);
+}
+
 static const zend_function_entry study_coroutine_server_coro_methods[] =
 {
     PHP_ME(study_coroutine_server_coro, __construct, arginfo_study_coroutine_server_coro_construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR) // ZEND_ACC_CTOR is used to declare that this method is a constructor of this class.
+    PHP_ME(study_coroutine_server_coro, accept, arginfo_study_coroutine_void, ZEND_ACC_PUBLIC)
     PHP_FE_END
 };
 

@@ -47,3 +47,15 @@ int stSocket_bind(int sock, int type, char *host, int port)
 
     return ret;
 }
+
+int stSocket_accept(int sock)
+{
+    int connfd;
+    struct sockaddr_in sa;
+    socklen_t len;
+
+    len = sizeof(sa);
+    connfd = accept(sock, (struct sockaddr *)&sa, &len);
+    
+    return connfd;
+}

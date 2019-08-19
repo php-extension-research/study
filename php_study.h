@@ -52,4 +52,10 @@ ZEND_END_MODULE_GLOBALS(study)
 void study_coroutine_util_init();
 void study_coroutine_server_coro_init();
 
+inline zval *st_zend_read_property(zend_class_entry *class_ptr, zval *obj, const char *s, int len, int silent)
+{
+    zval rv;
+    return zend_read_property(class_ptr, obj, s, len, silent, &rv);
+}
+
 #endif	/* PHP_STUDY_H */
