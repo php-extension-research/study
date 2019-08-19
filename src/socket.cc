@@ -1,9 +1,11 @@
 #include "socket.h"
+#include "log.h"
 
 int stSocket_create(int type)
 {
     int _domain;
     int _type;
+    int sock;
 
     if (type == ST_SOCK_TCP)
     {
@@ -20,7 +22,13 @@ int stSocket_create(int type)
         return -1;
     }
 
-    return socket(_domain, _type, 0);
+    sock = socket(_domain, _type, 0);
+    if (sock < 0)
+    {
+        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+    }
+
+    return sock;
 }
 
 int stSocket_bind(int sock, int type, char *host, int port)
@@ -31,12 +39,16 @@ int stSocket_bind(int sock, int type, char *host, int port)
     if (type == ST_SOCK_TCP)
     {
         bzero(&servaddr, sizeof(servaddr));
-        inet_aton(host, &(servaddr.sin_addr));
+        if (inet_aton(host, &(servaddr.sin_addr)) < 0)
+        {
+            stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+        }
         servaddr.sin_family = AF_INET;
         servaddr.sin_port = htons(port);
         ret = bind(sock, (struct sockaddr *)&servaddr, sizeof(servaddr));
         if (ret < 0)
         {
+            stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
             return -1; 
         }
     }
@@ -56,6 +68,10 @@ int stSocket_accept(int sock)
 
     len = sizeof(sa);
     connfd = accept(sock, (struct sockaddr *)&sa, &len);
-    
+    if (connfd < 0)
+    {
+        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+    }
+
     return connfd;
 }
