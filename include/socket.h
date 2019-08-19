@@ -15,5 +15,6 @@ int stSocket_listen(int sock);
 int stSocket_accept(int sock);
 
 ssize_t stSocket_recv(int sock, void *buf, size_t len, int flag);
+ssize_t stSocket_send(int sock, void *buf, size_t len, int flag);
 
 #endif	/* SOCKET_H */

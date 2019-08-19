@@ -84,3 +84,5 @@ PHP版本：7.3.5
 
 [34、server接收数据](./docs/《PHP扩展开发》-协程-server接收数据.md)
 
+[35、server发送数据](./docs/《PHP扩展开发》-协程-server发送数据.md)
+

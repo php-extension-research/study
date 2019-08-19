@@ -124,3 +124,4 @@ string(65536) "hello world
 
 `OK`，符合预期。
 
+[下一篇：server发送数据](./《PHP扩展开发》-协程-server发送数据.md)
