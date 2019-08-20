@@ -88,3 +88,5 @@ PHP版本：7.3.5
 
 [35、server发送数据](./docs/《PHP扩展开发》-协程-server发送数据.md)
 
+[36、server错误码](./docs/《PHP扩展开发》-协程-server错误码.md)
+

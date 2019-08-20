@@ -69,6 +69,12 @@ PHP_METHOD(study_coroutine_server_coro, recv)
     zend_string *buf = zend_string_alloc(length, 0);
 
     ret = stSocket_recv(fd, ZSTR_VAL(buf), length, 0);
+    if (ret == 0)
+    {
+        zend_update_property_long(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("errCode"), ST_ERROR_SESSION_CLOSED_BY_CLIENT);
+        zend_update_property_string(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("errMsg"), st_strerror(ST_ERROR_SESSION_CLOSED_BY_CLIENT));
+        RETURN_FALSE;
+    }
     if (ret < 0)
     {
         php_error_docref(NULL, E_WARNING, "recv error");
@@ -116,4 +122,6 @@ void study_coroutine_server_coro_init()
     zend_declare_property_long(study_coroutine_server_coro_ce_ptr, ZEND_STRL("sock"), -1, ZEND_ACC_PUBLIC);
     zend_declare_property_string(study_coroutine_server_coro_ce_ptr, ZEND_STRL("host"), "", ZEND_ACC_PUBLIC);
     zend_declare_property_long(study_coroutine_server_coro_ce_ptr, ZEND_STRL("port"), -1, ZEND_ACC_PUBLIC);
+    zend_declare_property_long(study_coroutine_server_coro_ce_ptr, ZEND_STRL("errCode"), 0, ZEND_ACC_PUBLIC);
+    zend_declare_property_string(study_coroutine_server_coro_ce_ptr, ZEND_STRL("errMsg"), "", ZEND_ACC_PUBLIC);
 }

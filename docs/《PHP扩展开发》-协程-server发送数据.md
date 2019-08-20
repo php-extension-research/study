@@ -107,3 +107,6 @@ hello world
 ```
 
 `OK`，服务器发送成功。
+
+[下一篇：server错误码](./《PHP扩展开发》-协程-server错误码.md)
+

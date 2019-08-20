@@ -60,7 +60,8 @@ if test "$PHP_STUDY" != "no"; then
         ${STUDY_ASM_DIR}jump_${STUDY_CONTEXT_ASM_FILE} \
         study_server_coro.cc \
         src/socket.cc \
-        src/log.cc
+        src/log.cc \
+        src/error.cc
     "
 
     PHP_NEW_EXTENSION(study, $study_source_file, $ext_shared, ,, cxx)
