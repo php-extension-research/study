@@ -236,3 +236,6 @@ string(24) "Session closed by client"
 ```
 
 `OK`，符合预期。
+
+[下一篇：压测server（一）](./《PHP扩展开发》-协程-压测server（一）.md)
+
