@@ -92,3 +92,5 @@ PHP版本：7.3.5
 
 [37、压测server（一）](./docs/《PHP扩展开发》-协程-压测server（一）.md)
 
+[38、socket可读写时候调度协程的思路](./docs/《PHP扩展开发》-协程-socket可读写时候调度协程的思路.md)
+
