@@ -9,7 +9,7 @@
 下载`libuv`源代码：
 
 ```shell
-git clone https://github.com/whtc123/libuvc.git
+git clone https://github.com/libuv/libuv.git
 ```
 
 编译：
