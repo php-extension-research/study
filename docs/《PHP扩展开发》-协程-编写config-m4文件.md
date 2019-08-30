@@ -6,6 +6,14 @@
 
 首先，我们需要去生成扩展的基本目录。我们可以在`PHP`的源码里面找到一个工具叫做`ext_skel`（`extension skeleton`的缩写，生成扩展骨架的意思）。它可以帮我们生成扩展目录。这里不进行介绍。
 
+注：
+PHP7.3.0之后的版本其中一条更新日志：
+
+Redesigned the old ext_skel program written in PHP, run: 'php ext_skel.php' for all options. This means there are no dependencies, thus making it work on Windows out of the box.
+
+由于`ext_skel`已经移除，使用`php ext_skel.php --ext <name>`生成扩展目录。
+
+
 生成扩展目录后，我们需要去复制一份`Swoole`扩展目录下的`thirdparty/boost`。因为我们写上下文切换的时候，会用到这些库：
 
 ```shell
