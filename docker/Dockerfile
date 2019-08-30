@@ -1,4 +1,4 @@
-FROM php:7.3-alpine3.9
+FROM php:7.3.5-alpine3.9
 
 LABEL maintainer="codinghuang"
 
