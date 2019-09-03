@@ -100,3 +100,4 @@ docker build -t study -f docker/Dockerfile .
 
 [38、socket可读写时候调度协程的思路](./docs/《PHP扩展开发》-协程-socket可读写时候调度协程的思路.md)
 
+[39、全局变量STUDYG](./docs/《PHP扩展开发》-协程-全局变量STUDYG.md)

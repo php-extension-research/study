@@ -157,12 +157,19 @@ extern "C" int uv__next_timeout(const uv_loop_t* loop);
 int PHPCoroutine::scheduler()
 {
     int timeout;
-    uv_loop_t* loop = uv_default_loop();
+    size_t size;
+    uv_loop_t *loop = uv_default_loop();
+
+    StudyG.poll.epollfd = epoll_create(256);
+    StudyG.poll.ncap = 16;
+    size = sizeof(struct epoll_event) * StudyG.poll.ncap;
+    StudyG.poll.events = (struct epoll_event *) malloc(size);
+    memset(StudyG.poll.events, 0, size);
 
     while (loop->stop_flag == 0)
     {
         timeout = uv__next_timeout(loop);
-        usleep(timeout);
+        epoll_wait(StudyG.poll.epollfd, StudyG.poll.events, StudyG.poll.ncap, timeout);
 
         loop->time = uv__hrtime(UV_CLOCK_FAST) / 1000000;
         uv__run_timers(loop);

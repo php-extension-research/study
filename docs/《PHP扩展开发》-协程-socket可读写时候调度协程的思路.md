@@ -86,4 +86,5 @@ int PHPCoroutine::scheduler()
 
 `OK`，我们后面的章节就会根据这个思路来实现我们的代码，以协程化我们的`accept`、`recv`、`send`函数。
 
+[下一篇：全局变量STUDYG](./《PHP扩展开发》-协程-全局变量STUDYG.md)
 

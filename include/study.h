@@ -39,5 +39,20 @@
 #include <sys/types.h>
 #include <sys/utsname.h>
 #include <sys/stat.h>
+#include <sys/epoll.h>
+
+typedef struct
+{
+    int epollfd;
+    int ncap;
+    struct epoll_event *events;
+} stPoll_t;
+
+typedef struct
+{
+    stPoll_t poll;
+} stGlobal_t;
+
+extern stGlobal_t StudyG;
 
 #endif /* STUDY_H_ */
