@@ -112,4 +112,4 @@ docker build -t study -f docker/Dockerfile .
 
 [44、协程化Socket::wait_event](./docs/《PHP扩展开发》-协程-协程化Socket::wait_event.md)
 
-[46、在事件到来时resume对应的协程](./docs/《PHP扩展开发》-协程-在事件到来时resume对应的协程.md)
+[45、在事件到来时resume对应的协程](./docs/《PHP扩展开发》-协程-在事件到来时resume对应的协程.md)
