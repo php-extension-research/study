@@ -158,7 +158,7 @@ while (1)
 然后另开一个终端去连接这个服务器并且发送消息：
 
 ```shell
-~/codeDir/cppCode/fsw/examples # nc 127.0.0.1 8080
+~/codeDir/cppCode # nc 127.0.0.1 8080
 codinghuang
 hello
 ```
@@ -166,4 +166,6 @@ hello
 成功的收到了服务器发来的`hello`字符串。符合预期。
 
 这里，我们并没有马上使用协程化的`coroutine::Socket`来创建套接字，因为我们还有其他的方法没有实现，所以还是用不了。我们必须全部协程化之后，才可以使用。所以，我们这里只需要保证非协程化的`socket`函数可用即可。
+
+[下一篇：实现coroutine::Socket::bind和listen](./《PHP扩展开发》-协程-实现coroutine::Socket::bind和listen.md)
 

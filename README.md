@@ -106,3 +106,5 @@ docker build -t study -f docker/Dockerfile .
 
 [41、协程化Socket::Socket](./docs/《PHP扩展开发》-协程-协程化Socket::Socket.md)
 
+[42、实现coroutine::Socket::bind和listen](./docs/《PHP扩展开发》-协程-实现coroutine::Socket::bind和listen.md)
+
