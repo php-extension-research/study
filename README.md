@@ -104,3 +104,5 @@ docker build -t study -f docker/Dockerfile .
 
 [40、定义协程化的Socket类](./docs/《PHP扩展开发》-协程-定义协程化的Socket类.md)
 
+[41、协程化Socket::Socket](./docs/《PHP扩展开发》-协程-协程化Socket::Socket.md)
+
