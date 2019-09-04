@@ -186,3 +186,5 @@ Installing header files:          /usr/local/include/php/
 
 编译成功，符合预期。
 
+[下一篇：协程化Socket::recv和send](./《PHP扩展开发》-协程-协程化Socket::recv和send.md)
+

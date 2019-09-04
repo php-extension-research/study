@@ -83,7 +83,7 @@ ssize_t stSocket_recv(int sock, void *buf, size_t len, int flag)
     return ret;
 }
 
-ssize_t stSocket_send(int sock, void *buf, size_t len, int flag)
+ssize_t stSocket_send(int sock, const void *buf, size_t len, int flag)
 {
     ssize_t ret;
 
