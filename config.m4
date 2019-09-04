@@ -62,7 +62,8 @@ if test "$PHP_STUDY" != "no"; then
         src/socket.cc \
         src/log.cc \
         src/error.cc \
-        src/core/base.cc
+        src/core/base.cc \
+        src/coroutine/socket.cc
     "
 
     PHP_NEW_EXTENSION(study, $study_source_file, $ext_shared, ,, cxx)
