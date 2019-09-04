@@ -30,7 +30,7 @@ int Socket::accept()
     connfd = stSocket_accept(sockfd);
     if (connfd < 0 && errno == EAGAIN)
     {
-        wait_event(FSW_EVENT_READ);
+        wait_event(ST_EVENT_READ);
         connfd = stSocket_accept(sockfd);
     }
 
