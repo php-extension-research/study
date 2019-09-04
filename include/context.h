@@ -6,7 +6,7 @@
 typedef fcontext_t coroutine_context_t;
 typedef void (*coroutine_func_t)(void*);
 
-namespace Study
+namespace study
 {
 class Context
 {

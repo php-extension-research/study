@@ -1,7 +1,7 @@
 #include "context.h"
 #include "study.h"
 
-using namespace Study;
+using namespace study;
 
 Context::Context(size_t stack_size, coroutine_func_t fn, void* private_data) :
         fn_(fn), stack_size_(stack_size), private_data_(private_data)

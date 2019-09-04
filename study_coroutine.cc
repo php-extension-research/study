@@ -1,8 +1,8 @@
 #include "study_coroutine.h"
 #include <iostream>
 
-using Study::PHPCoroutine;
-using Study::Coroutine;
+using study::PHPCoroutine;
+using study::Coroutine;
 using namespace std;
 
 php_coro_task PHPCoroutine::main_task = {0};

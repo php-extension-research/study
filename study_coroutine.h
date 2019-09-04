@@ -29,11 +29,11 @@ struct php_coro_task
     zend_vm_stack vm_stack; // current coroutine stack pointer
     size_t vm_stack_page_size;
     zend_execute_data *execute_data; // current coroutine stack frame
-    Study::Coroutine *co;
+    study::Coroutine *co;
     std::stack<php_study_fci_fcc *> *defer_tasks;
 };
 
-namespace Study
+namespace study
 {
 class PHPCoroutine
 {

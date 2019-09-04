@@ -1,8 +1,8 @@
 #include "study_coroutine.h"
 #include <unordered_map>
 
-using Study::PHPCoroutine;
-using Study::Coroutine;
+using study::PHPCoroutine;
+using study::Coroutine;
 
 static std::unordered_map<long, Coroutine *> user_yield_coros;
 
