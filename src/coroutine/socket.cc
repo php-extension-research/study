@@ -22,3 +22,17 @@ int Socket::listen()
 {
     return stSocket_listen(sockfd);
 }
+
+int Socket::accept()
+{
+    int connfd;
+
+    connfd = stSocket_accept(sockfd);
+    if (connfd < 0 && errno == EAGAIN)
+    {
+        wait_event(FSW_EVENT_READ);
+        connfd = stSocket_accept(sockfd);
+    }
+
+    return connfd;
+}
