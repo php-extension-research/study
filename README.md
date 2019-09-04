@@ -4,7 +4,7 @@
 
 PHP版本：7.3.5
 
-操作系统：我希望你是alpine
+操作系统：我希望你是`alpine`
 
 你也可以直接使用我为你准备的`Dockerfile`，以保证和我的开发环境一致，避免不必要的麻烦：
 
@@ -112,3 +112,4 @@ docker build -t study -f docker/Dockerfile .
 
 [44、协程化Socket::wait_event](./docs/《PHP扩展开发》-协程-协程化Socket::wait_event.md)
 
+[46、在事件到来时resume对应的协程](./docs/《PHP扩展开发》-协程-在事件到来时resume对应的协程.md)

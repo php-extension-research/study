@@ -50,7 +50,7 @@ typedef struct
 
 typedef struct
 {
-    stPoll_t poll;
+    stPoll_t *poll;
 } stGlobal_t;
 
 extern stGlobal_t StudyG;
@@ -72,6 +72,31 @@ static inline uint64_t touint64(int fd, int id)
     ret |= ((uint64_t)id);
 
     return ret;
+}
+
+static inline void fromuint64(uint64_t v, int *fd, int *id)
+{
+    *fd = (int)(v >> 32);
+    *id = (int)(v & 0xffffffff);
+}
+
+static inline void init_stPoll()
+{
+    size_t size;
+
+    StudyG.poll = (stPoll_t *)malloc(sizeof(stPoll_t));
+
+    StudyG.poll->epollfd = epoll_create(256);
+    StudyG.poll->ncap = 16;
+    size = sizeof(struct epoll_event) * StudyG.poll->ncap;
+    StudyG.poll->events = (struct epoll_event *) malloc(size);
+    memset(StudyG.poll->events, 0, size);
+}
+
+static inline void free_stPoll()
+{
+    free(StudyG.poll->events);
+    free(StudyG.poll);
 }
 
 #endif /* STUDY_H_ */

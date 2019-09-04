@@ -156,29 +156,45 @@ extern "C" int uv__next_timeout(const uv_loop_t* loop);
 
 int PHPCoroutine::scheduler()
 {
-    int timeout;
-    size_t size;
     uv_loop_t *loop = uv_default_loop();
 
-    StudyG.poll.epollfd = epoll_create(256);
-    StudyG.poll.ncap = 16;
-    size = sizeof(struct epoll_event) * StudyG.poll.ncap;
-    StudyG.poll.events = (struct epoll_event *) malloc(size);
-    memset(StudyG.poll.events, 0, size);
+    if (!StudyG.poll)
+    {
+        init_stPoll();
+    }
 
     while (loop->stop_flag == 0)
     {
+        int n;
+        int timeout;
+        epoll_event *events;
+
         timeout = uv__next_timeout(loop);
-        epoll_wait(StudyG.poll.epollfd, StudyG.poll.events, StudyG.poll.ncap, timeout);
+        events = StudyG.poll->events;
+        n = epoll_wait(StudyG.poll->epollfd, events, StudyG.poll->ncap, timeout);
+        
+        for (int i = 0; i < n; i++) {
+            int fd;
+            int id;
+            struct epoll_event *p = &events[i];
+            uint64_t u64 = p->data.u64;
+            Coroutine *co;
+
+            fromuint64(u64, &fd, &id);
+            co = Coroutine::get_by_cid(id);
+            co->resume();
+        }
 
         loop->time = uv__hrtime(UV_CLOCK_FAST) / 1000000;
         uv__run_timers(loop);
 
-        if (uv__next_timeout(loop) < 0)
+        if (uv__next_timeout(loop) < 0 && !StudyG.poll)
         {
             uv_stop(loop);
         }
     }
+
+    free_stPoll();
 
     return 0;
 }

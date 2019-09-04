@@ -114,3 +114,6 @@ Installing header files:          /usr/local/include/php/
 ```
 
 编译成功，符合预期。
+
+[下一篇：在事件到来时resume对应的协程](./《PHP扩展开发》-协程-在事件到来时resume对应的协程.md)
+

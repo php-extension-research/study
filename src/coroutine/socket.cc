@@ -48,11 +48,11 @@ bool Socket::wait_event(int event)
     co = Coroutine::get_current();
     id = co->get_cid();
 
-    ev = StudyG.poll.events;
+    ev = StudyG.poll->events;
 
     ev->events = event == ST_EVENT_READ ? EPOLLIN : EPOLLOUT;
     ev->data.u64 = touint64(sockfd, id);
-    epoll_ctl(StudyG.poll.epollfd, EPOLL_CTL_ADD, sockfd, ev);
+    epoll_ctl(StudyG.poll->epollfd, EPOLL_CTL_ADD, sockfd, ev);
 
     co->yield();
     return true;
