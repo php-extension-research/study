@@ -55,4 +55,23 @@ typedef struct
 
 extern stGlobal_t StudyG;
 
+enum stEvent_type
+{
+    ST_EVENT_NULL   = 0,
+    ST_EVENT_DEAULT = 1u << 8,
+    ST_EVENT_READ   = 1u << 9,
+    ST_EVENT_WRITE  = 1u << 10,
+    ST_EVENT_RDWR   = ST_EVENT_READ | ST_EVENT_WRITE,
+    ST_EVENT_ERROR  = 1u << 11,
+};
+
+static inline uint64_t touint64(int fd, int id)
+{
+    uint64_t ret = 0;
+    ret |= ((uint64_t)fd) << 32;
+    ret |= ((uint64_t)id);
+
+    return ret;
+}
+
 #endif /* STUDY_H_ */

@@ -110,3 +110,5 @@ docker build -t study -f docker/Dockerfile .
 
 [43、协程化Socket::accept](./docs/《PHP扩展开发》-协程-协程化Socket::accept.md)
 
+[44、协程化Socket::wait_event](./docs/《PHP扩展开发》-协程-协程化Socket::wait_event.md)
+

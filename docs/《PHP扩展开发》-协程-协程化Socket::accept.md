@@ -48,3 +48,6 @@ bool study::coroutine::Socket::wait_event(int event)
 ```
 
 方法。
+
+[下一篇：协程化Socket::wait_event](./《PHP扩展开发》-协程-协程化Socket::wait_event.md)
+
