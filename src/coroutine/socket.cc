@@ -39,13 +39,11 @@ int Socket::accept()
 {
     int connfd;
 
-    connfd = stSocket_accept(sockfd);
-    if (connfd < 0 && errno == EAGAIN)
+    do
     {
-        wait_event(ST_EVENT_READ);
         connfd = stSocket_accept(sockfd);
-    }
-
+    } while (connfd < 0 && errno == EAGAIN && wait_event(ST_EVENT_READ));
+    
     return connfd;
 }
 
@@ -53,12 +51,11 @@ ssize_t Socket::recv(void *buf, size_t len)
 {
     int ret;
 
-    ret = stSocket_recv(sockfd, buf, len, 0);
-    if (ret < 0 && errno == EAGAIN)
+    do
     {
-        wait_event(ST_EVENT_READ);
         ret = stSocket_recv(sockfd, buf, len, 0);
-    }
+    } while (ret < 0 && errno == EAGAIN && wait_event(ST_EVENT_READ));
+   
     return ret;
 }
 
@@ -66,12 +63,11 @@ ssize_t Socket::send(const void *buf, size_t len)
 {
     int ret;
 
-    ret = stSocket_send(sockfd, buf, len, 0);
-    if (ret < 0 && errno == EAGAIN)
+    do
     {
-        wait_event(ST_EVENT_WRITE);
         ret = stSocket_send(sockfd, buf, len, 0);
-    }
+    } while (ret < 0 && errno == EAGAIN && wait_event(ST_EVENT_WRITE));
+    
     return ret;
 }
 

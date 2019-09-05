@@ -217,9 +217,9 @@ codinghuang
 但是，因为我们加上了一层循环，我们是无法接收其他客户端的连接。我们另起一个终端测试一下：
 
 ```shell
-~/codeDir/cppCode/fsw/examples # nc 127.0.0.1 8080
+~/codeDir/cppCode/examples # nc 127.0.0.1 8080
 hello
-~/codeDir/cppCode/fsw/examples #
+~/codeDir/cppCode/examples #
 ```
 
 我们再来看看服务器端的输出：
@@ -271,3 +271,5 @@ ret = stSocket_recv(sockfd, buf, len, 0);
 因为我们第一个客户端是没有发送数据的，所以，这里肯定是读取不到数据的。所以这里会报错`recv error`。实战到这里，大家有没有发现，我这个服务器实际上很奇怪？
 
 我们的协程因为`accept`被`yield`，但是却因为数据可以`recv`了，又被`resume`了。或者说因为`recv`被`yield`了，又因为一个新的客户端连接而被`resume`了。我们期待的应该是因为`accept`被`yield`了，就只能因为可以`accept`了才被`resume`。或者说因为`recv`被`yield`了，就只能因为可以`recv`了才被`resume`。所以，我们需要修改我们的`Socket`操作被阻塞的逻辑。因为篇幅原因，我们另起一篇文章讲解。
+
+[下一篇：修复一些bug（五）](./《PHP扩展开发》-协程-修复一些bug（五）.md)
