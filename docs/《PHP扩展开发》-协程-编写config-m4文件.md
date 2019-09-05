@@ -9,10 +9,9 @@
 注：
 PHP7.3.0之后的版本其中一条更新日志：
 
-Redesigned the old ext_skel program written in PHP, run: 'php ext_skel.php' for all options. This means there are no dependencies, thus making it work on Windows out of the box.
+> Redesigned the old ext_skel program written in PHP, run: 'php ext_skel.php' for all options. This means there are no dependencies, thus making it work on Windows out of the box.
 
 由于`ext_skel`已经移除，使用`php ext_skel.php --ext <name>`生成扩展目录。
-
 
 生成扩展目录后，我们需要去复制一份`Swoole`扩展目录下的`thirdparty/boost`。因为我们写上下文切换的时候，会用到这些库：
 
