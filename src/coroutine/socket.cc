@@ -83,6 +83,11 @@ bool Socket::wait_event(int event)
     co = Coroutine::get_current();
     id = co->get_cid();
 
+    if (!StudyG.poll)
+    {
+        init_stPoll();
+    }
+
     ev = StudyG.poll->events;
 
     ev->events = event == ST_EVENT_READ ? EPOLLIN : EPOLLOUT;

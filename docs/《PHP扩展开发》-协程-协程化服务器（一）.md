@@ -59,9 +59,10 @@ PHP_METHOD(study_coroutine_server_coro, __construct)
 这里，我把非阻塞的`sokcet`函数都换成了`coroutine::Socket`类里面的方法。并且，把创建出来的`sock`对象放进了`zsock`这个`zval`容器里面。然后，我们再设置到`coroutine_server_coro`这个`PHP`对象的`zsock`属性里面。这里，我把属性`sock`改成了名字`zsock`，所以在声明这个属性的地方，我们也改一下。在函数`study_coroutine_server_coro_init`里面：
 
 ```cpp
-zval *zsock = (zval *)malloc(sizeof(zval));
-zend_declare_property(study_coroutine_server_coro_ce_ptr, ZEND_STRL("zsock"), zsock, ZEND_ACC_PUBLIC);
+zend_declare_property(study_coroutine_server_coro_ce_ptr, ZEND_STRL("zsock"), NULL, ZEND_ACC_PUBLIC);
 ```
+
+因为这个属性是一个指针，所以我们给它的默认值是`NULL`。
 
 `OK`，我们来编译一下扩展：
 
@@ -153,12 +154,12 @@ PHP_METHOD(study_coroutine_server_coro, __construct)
         Z_PARAM_LONG(zport)
     ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
 
-    Socket *sock = new Socket(AF_INET, SOCK_STREAM, 0); // 修改的地方
+    Socket *sock = new Socket(AF_INET, SOCK_STREAM, 0);
 
-    sock->bind(ST_SOCK_TCP, Z_STRVAL_P(zhost), zport); // 修改的地方
-    sock->listen(); // 修改的地方
+    sock->bind(ST_SOCK_TCP, Z_STRVAL_P(zhost), zport);
+    sock->listen();
 
-    ZVAL_PTR(&zsock, sock); // 修改的地方
+    ZVAL_PTR(&zsock, sock);
 
     zend_update_property(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("zsock"), &zsock);
     zend_update_property_string(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("host"), Z_STRVAL_P(zhost));
@@ -166,28 +167,5 @@ PHP_METHOD(study_coroutine_server_coro, __construct)
 }
 ```
 
-然后，我们重新编译、安装扩展：
-
-```shell
-~/codeDir/cppCode/study # make clean ; make ; make install
-----------------------------------------------------------------------
-
-Build complete.
-Don't forget to run 'make test'.
-
-Installing shared extensions:     /usr/local/lib/php/extensions/no-debug-non-zts-20180731/
-Installing header files:          /usr/local/include/php/
-~/codeDir/cppCode/study # 
-```
-
-然后执行测试脚本：
-
-```php
-~/codeDir/cppCode/study # php test.php 
-~/codeDir/cppCode/study # 
-```
-
-符合预期。
-
-
+[下一篇：协程化服务器（二）](./《PHP扩展开发》-协程-协程化服务器（二）.md)
 

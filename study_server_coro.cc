@@ -52,10 +52,12 @@ PHP_METHOD(study_coroutine_server_coro, __construct)
 PHP_METHOD(study_coroutine_server_coro, accept)
 {
     zval *zsock;
+    Socket *sock;
     int connfd;
 
-    zsock = st_zend_read_property(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("sock"), 0);
-    connfd = stSocket_accept(Z_LVAL_P(zsock));
+    zsock = st_zend_read_property(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("zsock"), 0);
+    sock = (Socket *)Z_PTR_P(zsock);
+    connfd = sock->accept();
     RETURN_LONG(connfd);
 }
 
