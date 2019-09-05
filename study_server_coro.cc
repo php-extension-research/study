@@ -75,7 +75,8 @@ PHP_METHOD(study_coroutine_server_coro, recv)
 
     zend_string *buf = zend_string_alloc(length, 0);
 
-    ret = stSocket_recv(fd, ZSTR_VAL(buf), length, 0);
+    Socket conn(fd);
+    ret = conn.recv(ZSTR_VAL(buf), length);
     if (ret == 0)
     {
         zend_update_property_long(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("errCode"), ST_ERROR_SESSION_CLOSED_BY_CLIENT);
