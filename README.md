@@ -116,3 +116,7 @@ docker build -t study -f docker/Dockerfile .
 
 [46、协程化Socket::recv和send](./docs/《PHP扩展开发》-协程-协程化Socket::recv和send.md)
 
+[47、实现coroutine::Socket::close](./docs/《PHP扩展开发》-协程-实现coroutine::Socket::close.md)
+
+
+

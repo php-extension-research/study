@@ -16,7 +16,7 @@ ssize_t Socket::recv(void *buf, size_t len)
     ret = stSocket_recv(sockfd, buf, len, 0);
     if (ret < 0 && errno == EAGAIN)
     {
-        wait_event(ST_EVENT_READ);
+        wait_event(FSW_EVENT_READ);
         ret = stSocket_recv(sockfd, buf, len, 0);
     }
     return ret;
@@ -51,7 +51,7 @@ ssize_t Socket::send(const void *buf, size_t len)
          ret = stSocket_send(sockfd, buf, len, 0);
 ```
 
-报错了。因为我们的参数类型不一致。为了和`Linux man`里面的参数声明保持一致，我们需要修改`void *buf`为`const void *buf`。所以，我们修改`stSocket_send`函数的参数声明，在文件`include/socket.h`里面：
+报错了。因为我们的参数类型不一致。我们需要修改`stSocket_send`函数的参数声明，在文件`include/socket.h`里面：
 
 ```cpp
 ssize_t stSocket_send(int sock, const void *buf, size_t len, int flag);
@@ -78,4 +78,6 @@ Installing header files:          /usr/local/include/php/
 ```
 
 编译成功，符合预期。
+
+[下一篇：实现coroutine::Socket::close](./《PHP扩展开发》-协程-实现coroutine::Socket::close.md)
 

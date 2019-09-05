@@ -59,6 +59,18 @@ int stSocket_accept(int sock)
     return connfd;
 }
 
+int stSocket_close(int fd)
+{
+    int ret;
+
+    ret = close(fd);
+    if (ret < 0)
+    {
+        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+    }
+    return ret;
+}
+
 int stSocket_listen(int sock)
 {
     int ret;

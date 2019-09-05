@@ -65,6 +65,11 @@ ssize_t Socket::send(const void *buf, size_t len)
     return ret;
 }
 
+int Socket::close()
+{
+    return stSocket_close(sockfd);
+}
+
 bool Socket::wait_event(int event)
 {
     long id;
