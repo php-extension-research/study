@@ -166,6 +166,20 @@ PHP_METHOD(study_coroutine_server_coro, __construct)
 }
 ```
 
+然后重新编译、安装扩展：
+
+```shell
+~/codeDir/cppCode/study # make clean ; make ; make install
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+Installing shared extensions:     /usr/local/lib/php/extensions/no-debug-non-zts-20180731/
+Installing header files:          /usr/local/include/php/
+~/codeDir/cppCode/study # 
+```
+
 然后重新执行脚本：
 
 ```shell
