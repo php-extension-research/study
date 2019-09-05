@@ -3,6 +3,7 @@
 
 #include "php_study.h"
 #include "socket.h"
+#include "coroutine_socket.h"
 #include "error.h"
 
 #endif	/* STUDY_SERVER_CORO_H */

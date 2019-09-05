@@ -46,3 +46,5 @@ Installing header files:          /usr/local/include/php/
 
 `OK`，符合预期。
 
+[下一篇：协程化服务器（一）](./《PHP扩展开发》-协程-协程化服务器（一）.md)
+

@@ -16,7 +16,7 @@ ssize_t Socket::recv(void *buf, size_t len)
     ret = stSocket_recv(sockfd, buf, len, 0);
     if (ret < 0 && errno == EAGAIN)
     {
-        wait_event(FSW_EVENT_READ);
+        wait_event(ST_EVENT_READ);
         ret = stSocket_recv(sockfd, buf, len, 0);
     }
     return ret;
