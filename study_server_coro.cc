@@ -94,7 +94,7 @@ PHP_METHOD(study_coroutine_server_coro, recv)
 
 PHP_METHOD(study_coroutine_server_coro, send)
 {
-    ssize_t retval;
+    ssize_t ret;
     zend_long fd;
     char *data;
     size_t length;
@@ -104,13 +104,14 @@ PHP_METHOD(study_coroutine_server_coro, send)
         Z_PARAM_STRING(data, length)
     ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
 
-    retval = stSocket_send(fd, data, length, 0);
-    if (retval < 0)
+    Socket conn(fd);
+    ret = conn.send(data, length);
+    if (ret < 0)
     {
         php_error_docref(NULL, E_WARNING, "send error");
         RETURN_FALSE;
     }
-    RETURN_LONG(retval);
+    RETURN_LONG(ret);
 }
 
 static const zend_function_entry study_coroutine_server_coro_methods[] =

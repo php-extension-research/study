@@ -11,7 +11,7 @@ Sgo(function ()
             while (1)
             {
                 $msg = $serv->recv($connfd);
-                var_dump($msg);
+                $serv->send($connfd, $msg);
             }
         });
     }

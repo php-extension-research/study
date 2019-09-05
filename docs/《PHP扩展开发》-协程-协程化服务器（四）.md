@@ -1,0 +1,87 @@
+# 协程化服务器（四）
+
+这篇文章，我们来协程化`send`接口，基本就和`recv`思路一样了：
+
+```cpp
+PHP_METHOD(study_coroutine_server_coro, send)
+{
+    ssize_t ret;
+    zend_long fd;
+    char *data;
+    size_t length;
+
+    ZEND_PARSE_PARAMETERS_START(2, 2)
+        Z_PARAM_LONG(fd)
+        Z_PARAM_STRING(data, length)
+    ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
+
+    Socket conn(fd);
+    ret = conn.send(data, length);
+    if (ret < 0)
+    {
+        php_error_docref(NULL, E_WARNING, "send error");
+        RETURN_FALSE;
+    }
+    RETURN_LONG(ret);
+}
+```
+
+我们重新编译安装扩展：
+
+```shell
+~/codeDir/cppCode/study # make clean ; make ; make install
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+Installing shared extensions:     /usr/local/lib/php/extensions/no-debug-non-zts-20180731/
+Installing header files:          /usr/local/include/php/
+```
+
+然后编写测试脚本：
+
+```shell
+<?php
+
+Sgo(function ()
+{
+    $serv = new Study\Coroutine\Server("127.0.0.1", 8080);
+    while (1)
+    {
+        $connfd = $serv->accept();
+        Sgo(function () use ($serv, $connfd)
+        {
+            while (1)
+            {
+                $msg = $serv->recv($connfd);
+                $serv->send($connfd, $msg);
+            }
+        });
+    }
+});
+
+Sco::scheduler();
+```
+
+运行服务器：
+
+```shell
+~/codeDir/cppCode/study # php test.php 
+
+```
+
+然后用客户端去连接服务器，并且发送数据：
+
+```shell
+~/codeDir/cppCode/test # nc 127.0.0.1 8080
+hello
+hello
+world
+world
+codinghuang
+codinghuang
+
+```
+
+符合预期。
