@@ -6,11 +6,14 @@ Sgo(function ()
     while (1)
     {
         $connfd = $serv->accept();
-        while (1)
+        Sgo(function () use ($serv, $connfd)
         {
-            $msg = $serv->recv($connfd);
-            var_dump($msg);
-        }
+            while (1)
+            {
+                $msg = $serv->recv($connfd);
+                var_dump($msg);
+            }
+        });
     }
 });
 
