@@ -141,3 +141,5 @@ docker build -t study -f docker/Dockerfile .
 [56、压测server（二）](./docs/《PHP扩展开发》-协程-压测server（二）.md)
 
 [57、修复一些bug（七）](./docs/《PHP扩展开发》-协程-修复一些bug（七）.md)
+
+[58、错误使用协程库导致的Bug（一）](./docs/《PHP扩展开发》-协程-错误使用协程库导致的Bug（一）.md)
