@@ -45,3 +45,5 @@ Transfer rate:          1499.77 [Kbytes/sec] received
 ```
 
 `qps`达到了`15997.52`，我们还是比较满意的。
+
+[下一篇：修复一些bug（七）](./《PHP扩展开发》-协程-修复一些bug（七）.md)

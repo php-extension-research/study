@@ -12,6 +12,7 @@ class Context
 {
 public:
     Context(size_t stack_size, coroutine_func_t fn, void* private_data);
+    ~Context();
     bool swap_in();
     bool swap_out();
     static void context_func(void* arg); // coroutine entry function

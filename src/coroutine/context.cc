@@ -1,7 +1,9 @@
 #include "context.h"
 #include "study.h"
+#include <iostream>
 
 using namespace study;
+using namespace std;
 
 Context::Context(size_t stack_size, coroutine_func_t fn, void* private_data) :
         fn_(fn), stack_size_(stack_size), private_data_(private_data)
@@ -12,6 +14,15 @@ Context::Context(size_t stack_size, coroutine_func_t fn, void* private_data) :
     
     void* sp = (void*) ((char*) stack_ + stack_size_);
     ctx_ = make_fcontext(sp, stack_size_, (void (*)(intptr_t))&context_func);
+}
+
+Context::~Context()
+{
+    if (swap_ctx_)
+    {
+        free(stack_);
+        stack_ = NULL;
+    }
 }
 
 bool Context::swap_in()
