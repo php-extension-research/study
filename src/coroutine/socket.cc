@@ -5,6 +5,11 @@
 using study::Coroutine;
 using study::coroutine::Socket;
 
+char * Socket::read_buffer = nullptr;
+size_t Socket::read_buffer_len = 0;
+char * Socket::write_buffer = nullptr;
+size_t Socket::write_buffer_len = 0;
+
 Socket::Socket(int domain, int type, int protocol)
 {
     sockfd = stSocket_create(domain, type, protocol);
@@ -98,4 +103,34 @@ bool Socket::wait_event(int event)
 
     co->yield();
     return true;
+}
+
+int Socket::init_read_buffer()
+{
+    if (!read_buffer)
+    {
+        read_buffer = (char *)malloc(65536);
+        if (read_buffer == NULL)
+        {
+            return -1;
+        }
+        read_buffer_len = 65536;
+    }
+
+    return 0;
+}
+
+int Socket::init_write_buffer()
+{
+    if (!write_buffer)
+    {
+        write_buffer = (char *)malloc(65536);
+        if (write_buffer == NULL)
+        {
+            return -1;
+        }
+        write_buffer_len = 65536;
+    }
+
+    return 0;
 }

@@ -73,10 +73,10 @@ PHP_METHOD(study_coroutine_server_coro, recv)
         Z_PARAM_LONG(length)
     ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
 
-    zend_string *buf = zend_string_alloc(length, 0);
+    Socket::init_read_buffer();
 
     Socket conn(fd);
-    ret = conn.recv(ZSTR_VAL(buf), length);
+    ret = conn.recv(Socket::read_buffer, Socket::read_buffer_len);
     if (ret == 0)
     {
         zend_update_property_long(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("errCode"), ST_ERROR_SESSION_CLOSED_BY_CLIENT);
@@ -88,8 +88,8 @@ PHP_METHOD(study_coroutine_server_coro, recv)
         php_error_docref(NULL, E_WARNING, "recv error");
         RETURN_FALSE;
     }
-    ZSTR_VAL(buf)[ret] = '\0';
-    RETURN_STR(buf);
+    Socket::read_buffer[ret] = '\0';
+    RETURN_STRING(Socket::read_buffer);
 }
 
 PHP_METHOD(study_coroutine_server_coro, send)

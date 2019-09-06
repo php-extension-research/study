@@ -133,3 +133,5 @@ docker build -t study -f docker/Dockerfile .
 [52、修复一些bug（四）](./docs/《PHP扩展开发》-协程-修复一些bug（四）.md)
 
 [53、修复一些bug（五）](./docs/《PHP扩展开发》-协程-修复一些bug（五）.md)
+
+[54、修复一些bug（六）](./docs/《PHP扩展开发》-协程-修复一些bug（六）.md)
