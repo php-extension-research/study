@@ -6,19 +6,8 @@ Sgo(function ()
     while (1)
     {
         $connfd = $serv->accept();
-        while (1)
-        {
-            $msg = $serv->recv($connfd);
-            if ($msg == false)
-            {
-                if ($serv->errCode == 1002)
-                {
-                    var_dump($serv->errMsg);
-                    break;
-                }
-            }
-            $serv->send($connfd, $msg);
-        }
+        var_dump($connfd);
+        $serv->close($connfd);
     }
 });
 

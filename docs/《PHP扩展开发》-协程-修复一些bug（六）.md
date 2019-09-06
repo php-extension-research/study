@@ -216,3 +216,5 @@ Installing header files:          /usr/local/include/php/
 ```
 
 符合预期。
+
+[下一篇：server关闭连接](./《PHP扩展开发》-协程-server关闭连接.md)
