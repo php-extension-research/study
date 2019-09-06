@@ -73,7 +73,7 @@ Sco::scheduler();
 启动服务器：
 
 ```shell
-~/codeDir/cppCode/study # php test.php 
+~/codeDir/cppCode/study # php test.php
 
 ```
 

@@ -195,7 +195,7 @@ Installing header files:          /usr/local/include/php/
 然后，我们重新启动我们的服务器脚本：
 
 ```shell
-~/codeDir/cppCode/study # php test.php 
+~/codeDir/cppCode/study # php test.php
 
 ```
 
