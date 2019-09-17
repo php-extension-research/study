@@ -1,6 +1,8 @@
 #include "log.h"
 
 char st_debug[ST_DEBUG_MSG_SIZE];
+char st_trace[ST_TRACE_MSG_SIZE];
+char st_warn[ST_WARN_MSG_SIZE];
 char st_error[ST_ERROR_MSG_SIZE];
 
 void stLog_put(int level, char *cnt)

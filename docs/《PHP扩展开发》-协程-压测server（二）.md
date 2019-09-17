@@ -31,7 +31,7 @@ Sco::scheduler();
 然后使用`ab`进行压测：
 
 ```shell
-~/codeDir/cppCode/fsw # ab -c 100 -n 10000 127.0.0.1:8080/
+~/codeDir/cppCode # ab -c 100 -n 10000 127.0.0.1:8080/
 Concurrency Level:      100
 Time taken for tests:   0.625 seconds
 Complete requests:      10000

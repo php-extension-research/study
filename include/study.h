@@ -65,6 +65,13 @@ enum stEvent_type
     ST_EVENT_ERROR  = 1u << 11,
 };
 
+int init_stPoll();
+int free_stPoll();
+
+int st_event_init();
+int st_event_wait();
+int st_event_free();
+
 static inline uint64_t touint64(int fd, int id)
 {
     uint64_t ret = 0;
@@ -78,25 +85,6 @@ static inline void fromuint64(uint64_t v, int *fd, int *id)
 {
     *fd = (int)(v >> 32);
     *id = (int)(v & 0xffffffff);
-}
-
-static inline void init_stPoll()
-{
-    size_t size;
-
-    StudyG.poll = (stPoll_t *)malloc(sizeof(stPoll_t));
-
-    StudyG.poll->epollfd = epoll_create(256);
-    StudyG.poll->ncap = 16;
-    size = sizeof(struct epoll_event) * StudyG.poll->ncap;
-    StudyG.poll->events = (struct epoll_event *) malloc(size);
-    memset(StudyG.poll->events, 0, size);
-}
-
-static inline void free_stPoll()
-{
-    free(StudyG.poll->events);
-    free(StudyG.poll);
 }
 
 #endif /* STUDY_H_ */
