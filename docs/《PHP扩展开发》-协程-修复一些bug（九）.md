@@ -69,6 +69,8 @@ int init_stPoll()
 }
 ```
 
+这里，我们用`try catch`来捕获`new`抛出的异常，例如内存不够的时候，我们是可以获取这个信息的。
+
 然后是修改函数`free_stPoll`：
 
 ```cpp
