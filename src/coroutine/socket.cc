@@ -117,11 +117,15 @@ int Socket::init_read_buffer()
 {
     if (!read_buffer)
     {
-        read_buffer = (char *)malloc(65536);
-        if (read_buffer == NULL)
+        try
         {
-            return -1;
+            read_buffer = new char[65536];
         }
+        catch(const std::bad_alloc& e)
+        {
+            stError("%s", e.what());
+        }
+        
         read_buffer_len = 65536;
     }
 
@@ -132,11 +136,15 @@ int Socket::init_write_buffer()
 {
     if (!write_buffer)
     {
-        write_buffer = (char *)malloc(65536);
-        if (write_buffer == NULL)
+        try
         {
-            return -1;
+            write_buffer = new char[65536];
         }
+        catch(const std::bad_alloc& e)
+        {
+            stError("%s", e.what());
+        }
+        
         write_buffer_len = 65536;
     }
 

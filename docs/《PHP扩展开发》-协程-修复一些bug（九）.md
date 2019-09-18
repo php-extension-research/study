@@ -121,7 +121,7 @@ Context::Context(size_t stack_size, coroutine_func_t fn, void* private_data) :
 }
 ```
 
-最后是方法`Context::~Context()`：
+然后是方法`Context::~Context()`：
 
 ```cpp
 Context::~Context()
@@ -131,6 +131,52 @@ Context::~Context()
         delete[] stack_;
         stack_ = nullptr;
     }
+}
+```
+
+然后是方法`Socket::init_read_buffer`：
+
+```cpp
+int Socket::init_read_buffer()
+{
+    if (!read_buffer)
+    {
+        try
+        {
+            read_buffer = new char[65536];
+        }
+        catch(const std::bad_alloc& e)
+        {
+            stError("%s", e.what());
+        }
+
+        read_buffer_len = 65536;
+    }
+
+    return 0;
+}
+```
+
+然后是方法`Socket::init_write_buffer`：
+
+```cpp
+int Socket::init_write_buffer()
+{
+    if (!write_buffer)
+    {
+        try
+        {
+            write_buffer = new char[65536];
+        }
+        catch(const std::bad_alloc& e)
+        {
+            stError("%s", e.what());
+        }
+
+        write_buffer_len = 65536;
+    }
+
+    return 0;
 }
 ```
 
