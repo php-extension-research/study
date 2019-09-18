@@ -242,7 +242,7 @@ PHP_FUNCTION(study_event_wait)
 ```cpp
 PHP_FE(study_event_init, arginfo_study_coroutine_void)
 PHP_FE(study_event_wait, arginfo_study_coroutine_void)
-``
+```
 
 `OK`，我们编译代码：
 
