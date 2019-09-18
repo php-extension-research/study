@@ -1,6 +1,7 @@
 #include "coroutine_socket.h"
 #include "coroutine.h"
 #include "socket.h"
+#include "log.h"
 
 using study::Coroutine;
 using study::coroutine::Socket;
@@ -103,6 +104,12 @@ bool Socket::wait_event(int event)
     (StudyG.poll->event_num)++;
 
     co->yield();
+
+    if (epoll_ctl(StudyG.poll->epollfd, EPOLL_CTL_DEL, sockfd, NULL) < 0)
+    {
+        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+        return false;
+    }
     return true;
 }
 
