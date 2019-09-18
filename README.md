@@ -147,3 +147,5 @@ docker build -t study -f docker/Dockerfile .
 [59、重构协程调度器模块](./docs/《PHP扩展开发》-协程-重构协程调度器模块.md)
 
 [60、修复一些bug（八）](./docs/《PHP扩展开发》-协程-修复一些bug（八）.md)
+
+[61、修复一些bug（九）](./docs/《PHP扩展开发》-协程-修复一些bug（九）.md)

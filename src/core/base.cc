@@ -9,30 +9,34 @@ stGlobal_t StudyG;
 
 int init_stPoll()
 {
-    size_t size;
-
-    StudyG.poll = (stPoll_t *)malloc(sizeof(stPoll_t));
-
-    if (StudyG.poll == NULL)
+    try
     {
-        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
-        return -1;
+        StudyG.poll = new stPoll_t();
     }
-
+    catch(const std::exception& e)
+    {
+        stError("%s", e.what());
+    }
+    
     StudyG.poll->epollfd = epoll_create(256);
     if (StudyG.poll->epollfd  < 0)
     {
         stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
-        free(StudyG.poll);
-        StudyG.poll = NULL;
+        delete StudyG.poll;
+        StudyG.poll = nullptr;
         return -1;
     }
 
     StudyG.poll->ncap = 16;
-    size = sizeof(struct epoll_event) * StudyG.poll->ncap;
-    StudyG.poll->events = (struct epoll_event *) malloc(size);
+    try
+    {
+        StudyG.poll->events = new epoll_event[StudyG.poll->ncap](); // zero initialized
+    }
+    catch(const std::bad_alloc& e)
+    {
+        stError("%s", e.what());
+    }
     StudyG.poll->event_num = 0;
-    memset(StudyG.poll->events, 0, size);
 
     return 0;
 }
@@ -43,10 +47,10 @@ int free_stPoll()
     {
         stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
     }
-    free(StudyG.poll->events);
-    StudyG.poll->events = NULL;
-    free(StudyG.poll);
-    StudyG.poll = NULL;
+    delete[] StudyG.poll->events;
+    StudyG.poll->events = nullptr;
+    delete StudyG.poll;
+    StudyG.poll = nullptr;
     return 0;
 }
 
@@ -116,6 +120,7 @@ int st_event_wait()
 
 int st_event_free()
 {
+    StudyG.running = 0;
     free_stPoll();
     return 0;
 } 
