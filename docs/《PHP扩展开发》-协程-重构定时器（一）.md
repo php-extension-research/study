@@ -284,3 +284,5 @@ Installing header files:          /usr/local/include/php/
 ```
 
 符合预期。
+
+[下一篇：重构定时器（二）](./《PHP扩展开发》-协程-重构定时器（二）.md)

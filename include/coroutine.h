@@ -2,7 +2,6 @@
 #define COROUTINE_H
 
 #include "context.h"
-#include "uv.h"
 #include <unordered_map>
 
 #define DEFAULT_C_STACK_SIZE          (2 *1024 * 1024)
