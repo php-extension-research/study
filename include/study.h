@@ -41,6 +41,8 @@
 #include <sys/stat.h>
 #include <sys/epoll.h>
 
+#include <queue>
+
 typedef struct
 {
     int epollfd;

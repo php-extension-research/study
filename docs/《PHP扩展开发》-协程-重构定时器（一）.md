@@ -1,0 +1,286 @@
+# 重构定时器（一）
+
+这一篇文章，我们来重构一下定时器。我们不使用`libuv`的定时器，而是自己去实现一个定时器。为什么要这么做呢？这里我很有必要花一些时间给大家说明一下。如果我们在循环里面去调用`Co::sleep`函数，会出现一些问题，或许在`PHP`层面上不会报错，但是，把`src`抽离出来，用`C++`代码做测试，就会发现这个问题。而且，如果我们的`timer`在堆上面分配内存的话，那么是不能够正常的释放`timer`的内存的，必须使用`libuv`的`uv_close`函数，在`uv_close`中的回调函数里面来释放，这就很头痛了。因为回调函数只能够通过`libuv`的那套事件驱动来被调用。但是，我们没有用到`libuv`的那套事件驱动，所以释放`timer`的回调函数就无法被调用，因此就会造成内存泄漏。这个问题花了我`1`天的时间去调试。主要是对`libuv`不熟悉，我还是在大佬的帮助下发现的这个问题。那么，为什么不使用`libuv`的那套事件驱动呢？因为，如果我们直接使用它的事件驱动，那么我们会失去很多学习的机会，而且我们的代码也会一直被`libuv`束缚住，这是我不希望看到的，所以，我决定自己去实现一个定时器，而且这个难度不是很大，因为`C++`有很多实用的容器，可以助力我们实现定时器。
+
+我们来想一下我们的这个定时器必须要实现的功能：
+
+```shell
+1、创建一个定时器（可以设置超时的时间，以及超时之后被回调的函数）
+2、获取当前的时间（因为，我们需要用定时器里面的时间和当前时间进行比较，如果到期，说明需要执行回调函数）
+3、最接近过期时间的优先被执行（因此，我们可以使用优先队列实现一个最小堆的效果）
+4、获取下一个过期的时间（得到的这个时间作为`epoll_wait`的阻塞时间）
+5、检查是否有到期的定时器（如果到期，那么执行设置好的回调函数）
+```
+
+然后，我们创建两个文件`include/timer.h`和`src/timer.cc`，记得修改`config.m4`文件，增加需要编译的文件`src/timer.cc`，并且重新生成一份`Makefile`。
+
+`timer.h`里面的内容如下：
+
+```cpp
+#ifndef TIMER_H
+#define TIMER_H
+
+#include "study.h"
+
+typedef void (*timer_func_t)(void*);
+
+namespace study
+{
+class TimerManager;
+
+class Timer
+{
+friend class TimerManager;
+friend class CompareTimerPointer;
+public:
+    static const uint64_t MILLI_SECOND;
+    static const uint64_t SECOND;
+    Timer(uint64_t _timeout, timer_func_t _callback, void *_private_data, TimerManager *_timer_manager);
+    static uint64_t get_current_ms();
+
+private:
+    uint64_t timeout = 0;
+    uint64_t exec_msec = 0;
+    timer_func_t callback;
+    void *private_data;
+    TimerManager *timer_manager = nullptr;
+};
+
+class CompareTimerPointer
+{
+public:
+    bool operator () (Timer* &timer1, Timer* &timer2) const
+    {
+        return timer1->exec_msec > timer2->exec_msec;
+    }
+};
+
+class TimerManager
+{
+public:
+    TimerManager();
+    ~TimerManager();
+    void add_timer(int64_t _timeout, timer_func_t _callback, void *_private_data);
+    int64_t get_next_timeout();
+    void run_timers();
+private:
+    std::priority_queue<Timer*, std::vector<Timer*>, CompareTimerPointer> timers;
+};
+
+extern TimerManager timer_manager;
+}
+
+#endif /* TIMER_H */
+
+```
+
+我们先来看看`Timer`这个类的成员方法。
+
+其中，
+
+`Timer`类是定时器。
+
+```cpp
+friend class TimerManager;
+```
+
+是用来声明`TimerManager`类是`Timer`的一个"朋友"。这样的话，`TimerManager`类就可以访问`Timer`类的成员变量了。
+
+```cpp
+Timer(uint64_t _timeout, timer_func_t _callback, void *_private_data, TimerManager *_timer_manager);
+```
+
+是构造函数，`_timeout`表示`_timeout`毫秒之后定时器过期。`_callback`表示定时器过期之后需要调用的回调函数。`_private_data`是传递给这个回调函数的参数。`_timer_manager`是这个`Timer`对应的管理器。
+
+```cpp
+static uint64_t get_current_ms();
+```
+
+获取当前的时间戳，单位是毫秒`ms`。
+
+我们再来看看`Timer`这个类的成员变量：
+
+`timeout`是定时器过期的时间，也就是定时多久，例如`1ms`这种。
+
+`exec_msec`是用来判断定时器是否过期的那个时间点，单位也是`ms`。
+
+`CompareTimerPointer`用来插入`timer`的时候，比较`exec_msec`的大小，从而形成最小堆。
+
+我们再来看看定时器管理类`TimerManager`。
+
+其中，
+
+```cpp
+void add_timer(int64_t _timeout, timer_func_t _callback, void *_private_data);
+```
+
+用来添加一个定时器。
+
+```cpp
+int64_t get_next_timeout();
+```
+
+用来获取再过多久时间(`ms`)，下一个定时器过期。
+
+```cpp
+void run_timers();
+```
+
+用来跑已经过期的定时器回调函数，并且会删除过期的定时器，以防止再次触发这个定时器从而导致回调函数多次被执行。
+
+```cpp
+std::priority_queue<Timer*, std::vector<Timer*>, CompareTimerPointer> timers;
+```
+
+是一个优先队列，因为我们比较的时候，用了`CompareTimerPointer`。这个是比较的依据，`exec_msec`小的，排在队列的前面，从而形成了一个最小堆。
+
+```cpp
+extern TimerManager timer_manager;
+```
+
+用来声明`timer_manager`是在其他地方定义了。（我们会在文件`src/timer.cc`里面定义这个全局的变量）
+
+然后，我们需要在文件`study.h`里面引入头文件：
+
+```cpp
+#include <queue>
+```
+
+这个头文件里面有我们需要的那个优先队列。
+
+`OK`，我们现在来实现一下这些成员方法。
+
+首先，来看看头文件以及要用到的命名空间，在文件`src/base.cc`里面：
+
+```cpp
+#include "timer.h"
+
+using study::Timer;
+using study::TimerManager;
+
+TimerManager study::timer_manager;
+
+const uint64_t Timer::MILLI_SECOND = 1;
+const uint64_t Timer::SECOND = 1000;
+```
+
+```cpp
+TimerManager study::timer_manager;
+```
+
+就是用来定义一个`study`命名空间下的全局变量`timer_manager`。
+
+然后实现一下`get_current_ms`：
+
+```cpp
+uint64_t Timer::get_current_ms()
+{
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return tv.tv_sec * 1000 + tv.tv_usec / 1000;
+}
+```
+
+我们通过`gettimeofday`来获取当前的结构化的时间，`gettimeofday`的第二个参数是时区，这里，我们不需要管时区。`tv.tv_sec`存放的时间单位是`s`，`tv.tv_usec`存放的时间单位是`us`。所以，我们就可以通过以下公式获取到当前的毫秒时间戳：
+
+```cpp
+tv.tv_sec * 1000 + tv.tv_usec / 1000
+```
+
+然后我们实现`Timer`的构造函数：
+
+```cpp
+Timer::Timer(uint64_t _timeout, timer_func_t _callback, void *_private_data, TimerManager *_timer_manager):
+    timeout(_timeout), callback(_callback), private_data(_private_data), timer_manager(_timer_manager)
+{
+    exec_msec = get_current_ms() + _timeout;
+}
+```
+
+代码比较简单，都是简单的赋值，不多解释。
+
+然后我们定义一下`TimerManager`的构造函数和析构函数，目前我们不需要去实现里面的代码：
+
+```cpp
+TimerManager::TimerManager()
+{
+}
+
+TimerManager::~TimerManager()
+{
+}
+```
+
+然后实现添加定时器的方法`TimerManager::add_timer`：
+
+```cpp
+void TimerManager::add_timer(int64_t _timeout, timer_func_t _callback, void *_private_data)
+{
+    Timer *timer = new Timer(_timeout, _callback, _private_data, this);
+    timers.push(timer);
+}
+```
+
+代码也很简单，直接创建一个`Timer`，然后`push`进`timers`这个优先队列即可。（注意，这个队列是一个最小堆。里面的元素是会根据`exec_msec`的大小动态调整的）
+
+然后实现方法`TimerManager::get_next_timeout`：
+
+```cpp
+int64_t TimerManager::get_next_timeout()
+{
+    int64_t diff;
+
+    if (timers.empty())
+    {
+        return -1;
+    }
+    Timer *t = timers.top();
+
+    diff = t->exec_msec - Timer::get_current_ms();
+    return diff < 0 ? 0 : diff;
+}
+```
+
+这里有一个需要注意的点是，这个`next_timeout`不是直接把`Timer`里面的`timeout`直接返回出去，而是获取当前时间与`exec_msec`的一个**时间差**，从而确定还要过多久下一个定时器会到期。
+
+最后，我们实现一下`TimerManager::run_timers`：
+
+```cpp
+void TimerManager::run_timers()
+{
+    uint64_t now = Timer::get_current_ms();
+    while (true)
+    {
+        if (timers.empty())
+        {
+            break;
+        }
+        Timer *t = timers.top();
+        if (now < t->exec_msec)
+        {
+            break;
+        }
+        timers.pop();
+        t->callback(t->private_data);
+        delete t;
+    }
+}
+```
+
+原理很简单，就是去用`timers`里面的定时器去和当前时间比较，如果`now >= t->exec_msec`说明这个定时器过期了，需要执行这个回调函数。一旦发现`now < t->exec_msec`，我们就可以结束遍历了，不再查找过期的定时器了。为什么呢？因为我们的优先队列是一个最小堆，所以，堆顶的`timer`的`exec_msec`一定是最小的。并且，当我们`timers.pop()`出堆顶的定时器之后，这个优先队列会自动进行调整，重新保持堆顶的`timer`的`exec_msec`是最小的。
+
+`OK`，我们重新编译、安装扩展：
+
+```shell
+~/codeDir/cppCode/study # make clean ; make ; make install
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+Installing shared extensions:     /usr/local/lib/php/extensions/no-debug-non-zts-20180731/
+Installing header files:          /usr/local/include/php/
+~/codeDir/cppCode/study #
+```
+
+符合预期。
