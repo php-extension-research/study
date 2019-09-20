@@ -1,4 +1,5 @@
 #include "study_server_coro.h"
+#include "log.h"
 
 using study::coroutine::Socket;
 
@@ -61,6 +62,7 @@ PHP_METHOD(study_coroutine_server_coro, accept)
 
     zsock = st_zend_read_property(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("zsock"), 0);
     sock = (Socket *)Z_PTR_P(zsock);
+    stTrace("sockfd[%d]", sock->get_fd());
     connfd = sock->accept();
     RETURN_LONG(connfd);
 }
@@ -79,8 +81,8 @@ PHP_METHOD(study_coroutine_server_coro, recv)
 
     Socket::init_read_buffer();
 
-    Socket conn(fd);
-    ret = conn.recv(Socket::read_buffer, Socket::read_buffer_len);
+    Socket *conn = new Socket(fd);
+    ret = conn->recv(Socket::read_buffer, Socket::read_buffer_len);
     if (ret == 0)
     {
         zend_update_property_long(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("errCode"), ST_ERROR_SESSION_CLOSED_BY_CLIENT);
@@ -108,8 +110,8 @@ PHP_METHOD(study_coroutine_server_coro, send)
         Z_PARAM_STRING(data, length)
     ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
 
-    Socket conn(fd);
-    ret = conn.send(data, length);
+    Socket *conn = new Socket(fd);
+    ret = conn->send(data, length);
     if (ret < 0)
     {
         php_error_docref(NULL, E_WARNING, "send error");
@@ -127,8 +129,13 @@ PHP_METHOD(study_coroutine_server_coro, close)
         Z_PARAM_LONG(fd)
     ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
 
-    Socket sock(fd);
-    ret = sock.close();
+    if (fd == 4)
+    {
+        stError("close 4");
+    }
+
+    Socket *sock = new Socket(fd);
+    ret = sock->close();
     if (ret < 0)
     {
         php_error_docref(NULL, E_WARNING, "close error");

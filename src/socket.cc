@@ -3,13 +3,15 @@
 
 int stSocket_create(int domain, int type, int protocol)
 {
+    int on = 1;
     int sock;
 
     sock = socket(domain, type, protocol);
     if (sock < 0)
     {
-        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+        stError("Error has occurred: (errno %d) %s", errno, strerror(errno));
     }
+    setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));
 
     return sock;
 }
@@ -24,14 +26,14 @@ int stSocket_bind(int sock, int type, char *host, int port)
         bzero(&servaddr, sizeof(servaddr));
         if (inet_aton(host, &(servaddr.sin_addr)) < 0)
         {
-            stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+            stError("Error has occurred: (errno %d) %s", errno, strerror(errno));
         }
         servaddr.sin_family = AF_INET;
         servaddr.sin_port = htons(port);
         ret = bind(sock, (struct sockaddr *)&servaddr, sizeof(servaddr));
         if (ret < 0)
         {
-            stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+            stError("Error has occurred: (errno %d) %s", errno, strerror(errno));
             return -1; 
         }
     }
@@ -53,7 +55,7 @@ int stSocket_accept(int sock)
     connfd = accept(sock, (struct sockaddr *)&sa, &len);
     if (connfd < 0 && errno != EAGAIN)
     {
-        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+        stError("Error has occurred: (errno %d) %s", errno, strerror(errno));
     }
 
     return connfd;
@@ -63,10 +65,15 @@ int stSocket_close(int fd)
 {
     int ret;
 
+    if (fd == 4)
+    {
+        stError("close 4");
+    }
+
     ret = close(fd);
     if (ret < 0)
     {
-        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+        stError("Error has occurred: (errno %d) %s", errno, strerror(errno));
     }
     return ret;
 }
@@ -78,7 +85,7 @@ int stSocket_listen(int sock)
     ret = listen(sock, 512);
     if (ret < 0)
     {
-        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+        stError("Error has occurred: (errno %d) %s", errno, strerror(errno));
     }
     return ret;
 }
@@ -90,7 +97,7 @@ ssize_t stSocket_recv(int sock, void *buf, size_t len, int flag)
     ret = recv(sock, buf, len, flag);
     if (ret < 0 && errno != EAGAIN)
     {
-        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+        stError("Error has occurred: (errno %d) %s", errno, strerror(errno));
     }
     return ret;
 }
@@ -102,7 +109,7 @@ ssize_t stSocket_send(int sock, const void *buf, size_t len, int flag)
     ret = send(sock, buf, len, flag);
     if (ret < 0 && errno != EAGAIN)
     {
-        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+        stError("Error has occurred: (errno %d) %s", errno, strerror(errno));
     }
     return ret;
 }
@@ -113,12 +120,12 @@ int stSocket_set_nonblock(int sock)
 
     flags = fcntl(sock, F_GETFL, 0);
     if (flags < 0) {
-        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+        stError("Error has occurred: (errno %d) %s", errno, strerror(errno));
         return -1;
     }
     flags = fcntl(sock, F_SETFL, flags | O_NONBLOCK);
     if (flags < 0) {
-        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+        stError("Error has occurred: (errno %d) %s", errno, strerror(errno));
         return -1;
     }
     return 0;

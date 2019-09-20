@@ -99,6 +99,7 @@ bool Socket::wait_event(int event)
     ev = StudyG.poll->events;
 
     ev->events = event == ST_EVENT_READ ? EPOLLIN : EPOLLOUT;
+    stTrace("sockfd[%d]", sockfd);
     ev->data.u64 = touint64(sockfd, id);
     epoll_ctl(StudyG.poll->epollfd, EPOLL_CTL_ADD, sockfd, ev);
     (StudyG.poll->event_num)++;
@@ -107,7 +108,7 @@ bool Socket::wait_event(int event)
 
     if (epoll_ctl(StudyG.poll->epollfd, EPOLL_CTL_DEL, sockfd, NULL) < 0)
     {
-        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+        stError("Error has occurred: (errno %d) %s", errno, strerror(errno));
         return false;
     }
     return true;

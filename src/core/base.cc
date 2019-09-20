@@ -24,7 +24,7 @@ int init_stPoll()
     StudyG.poll->epollfd = epoll_create(256);
     if (StudyG.poll->epollfd  < 0)
     {
-        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+        stError("Error has occurred: (errno %d) %s", errno, strerror(errno));
         delete StudyG.poll;
         StudyG.poll = nullptr;
         return -1;
@@ -48,7 +48,7 @@ int free_stPoll()
 {
     if (close(StudyG.poll->epollfd) < 0)
     {
-        stWarn("Error has occurred: (errno %d) %s", errno, strerror(errno));
+        stError("Error has occurred: (errno %d) %s", errno, strerror(errno));
     }
     delete[] StudyG.poll->events;
     StudyG.poll->events = nullptr;
