@@ -94,6 +94,7 @@ PHP_METHOD(study_coroutine_server_coro, recv)
         php_error_docref(NULL, E_WARNING, "recv error");
         RETURN_FALSE;
     }
+    delete conn;
     Socket::read_buffer[ret] = '\0';
     RETURN_STRING(Socket::read_buffer);
 }
@@ -117,6 +118,7 @@ PHP_METHOD(study_coroutine_server_coro, send)
         php_error_docref(NULL, E_WARNING, "send error");
         RETURN_FALSE;
     }
+    delete conn;
     RETURN_LONG(ret);
 }
 
@@ -141,6 +143,7 @@ PHP_METHOD(study_coroutine_server_coro, close)
         php_error_docref(NULL, E_WARNING, "close error");
         RETURN_FALSE;
     }
+    delete sock;
     RETURN_LONG(ret);
 }
 
