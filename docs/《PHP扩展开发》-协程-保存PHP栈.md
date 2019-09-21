@@ -401,7 +401,7 @@ Time per request:       0.126 [ms] (mean, across all concurrent requests)
 Transfer rate:          743.74 [Kbytes/sec] received
 ```
 
-我们发现`qps`达到了`8000`。这个不明显因为，我们直接在创建子协程的入口就调用了`co::sleep`。所以，在创建完**所有**的协程之前，`ab`压测工具都是无法收到服务器的响应的。我们需要修改测试脚本：
+我们发现`qps`达到了`8000`。这个不明显，因为我们直接在创建子协程的入口就调用了`co::sleep`。所以，在创建完**所有**的协程之前，`ab`压测工具都是无法收到服务器的响应的。我们需要修改测试脚本：
 
 ```php
 <?php
