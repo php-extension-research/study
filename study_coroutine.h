@@ -38,9 +38,16 @@ namespace study
 class PHPCoroutine
 {
 public:
+    static void init();
     static long create(zend_fcall_info_cache *fci_cache, uint32_t argc, zval *argv);
     static void defer(php_study_fci_fcc *defer_fci_fcc);
     static int sleep(double seconds);
+    
+    static inline php_coro_task* get_origin_task(php_coro_task *task)
+    {
+        Coroutine *co = task->co->get_origin();
+        return co ? (php_coro_task *) co->get_task() : &main_task;
+    }
 
 protected:
     static php_coro_task main_task;
@@ -50,6 +57,10 @@ protected:
     static php_coro_task* get_task();
     static void create_func(void *arg);
     static void vm_stack_init(void);
+    static void on_yield(void *arg);
+    static void on_resume(void *arg);
+    static inline void restore_task(php_coro_task *task);
+    static inline void restore_vm_stack(php_coro_task *task);
 };
 }
 
