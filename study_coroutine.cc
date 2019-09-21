@@ -146,7 +146,7 @@ void PHPCoroutine::on_yield(void *arg)
     php_coro_task *task = (php_coro_task *) arg;
     php_coro_task *origin_task = get_origin_task(task);
     save_task(task);
-    restore_task(task);
+    restore_task(origin_task);
 }
 
 void PHPCoroutine::on_resume(void *arg)
