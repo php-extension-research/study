@@ -99,7 +99,6 @@ bool Socket::wait_event(int event)
     ev = StudyG.poll->events;
 
     ev->events = event == ST_EVENT_READ ? EPOLLIN : EPOLLOUT;
-    stTrace("sockfd[%d]", sockfd);
     ev->data.u64 = touint64(sockfd, id);
     epoll_ctl(StudyG.poll->epollfd, EPOLL_CTL_ADD, sockfd, ev);
     (StudyG.poll->event_num)++;

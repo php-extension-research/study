@@ -62,7 +62,6 @@ PHP_METHOD(study_coroutine_server_coro, accept)
 
     zsock = st_zend_read_property(study_coroutine_server_coro_ce_ptr, getThis(), ZEND_STRL("zsock"), 0);
     sock = (Socket *)Z_PTR_P(zsock);
-    stTrace("sockfd[%d]", sock->get_fd());
     connfd = sock->accept();
     RETURN_LONG(connfd);
 }
