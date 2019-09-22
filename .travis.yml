@@ -12,9 +12,6 @@ php:
 
 sudo: required
 
-before_install:
-  - ./travis/compile.sh
-
 # compile
 before_script:
   - ./travis/compile.sh
