@@ -161,3 +161,5 @@ docker build -t study -f docker/Dockerfile .
 ### 第四阶段 CSP并发模型
 
 [64、Channel实现原理](./docs/《PHP扩展开发》-协程-Channel实现原理.md)
+
+[65、Channel创建](./docs/《PHP扩展开发》-协程-Channel创建.md)
