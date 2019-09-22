@@ -159,3 +159,5 @@ docker build -t study -f docker/Dockerfile .
 到目前位置，我们已经实现了一个高性能的`TCP`服务器。接下来，我们会继续增强我们的协程扩展。我们之后会开启一个全新的篇章。
 
 ### 第四阶段 CSP并发模型
+
+[64、Channel实现原理](./docs/《PHP扩展开发》-协程-Channel实现原理.md)

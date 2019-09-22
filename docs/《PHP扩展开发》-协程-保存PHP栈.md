@@ -508,3 +508,5 @@ Transfer rate:          1355.02 [Kbytes/sec] received
 可以看到，`qps`达到了`14453.56`。
 
 **这，就是协程的威力。**
+
+[下一篇：Channel实现原理](./《PHP扩展开发》-协程-Channel实现原理.md)
