@@ -6,7 +6,7 @@ Make sure that the comment is aligned:
 
 if test "$PHP_STUDY" != "no"; then
 
-    PHP_ADD_LIBRARY_WITH_PATH(uv, /usr/local/lib/, STUDY_SHARED_LIBADD)
+    # PHP_ADD_LIBRARY_WITH_PATH(uv, /usr/local/lib/, STUDY_SHARED_LIBADD)
     PHP_SUBST(STUDY_SHARED_LIBADD)
 
     PHP_ADD_LIBRARY(pthread)
