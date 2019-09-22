@@ -15,7 +15,7 @@ Sgo(function ()
             $responseStr = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nConnection: close\r\nContent-Length: 11\r\n\r\nhello world\r\n";
             $serv->send($connfd, $responseStr);
             $serv->close($connfd);
-            usleep(10);
+            Sco::sleep(0.01);
         }, $serv, $connfd);
     }
 });
