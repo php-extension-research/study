@@ -1,0 +1,21 @@
+language: php
+
+compiler:
+  - gcc
+  - clang
+
+os:
+  - linux
+
+php:
+  - 7.3.5
+
+sudo: required
+
+# compile
+before_script:
+  - ./travis/compile.sh
+  - php --ri study
+
+script:
+  - ./travis/run-tests.sh
