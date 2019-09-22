@@ -9,6 +9,7 @@ if [ "${TRAVIS}"x = ""x ]; then
 fi
 
 cd ${__DIR__} && cd ../ && \
+./clear.sh > /dev/null && \
 phpize --clean > /dev/null && \
 phpize > /dev/null && \
 ./configure > /dev/null && \
