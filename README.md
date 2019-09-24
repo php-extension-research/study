@@ -163,3 +163,5 @@ docker build -t study -f docker/Dockerfile .
 [64、Channel实现原理](./docs/《PHP扩展开发》-协程-Channel实现原理.md)
 
 [65、Channel创建](./docs/《PHP扩展开发》-协程-Channel创建.md)
+
+[66、实现Channel基础类](./docs/《PHP扩展开发》-协程-实现Channel基础类.md)

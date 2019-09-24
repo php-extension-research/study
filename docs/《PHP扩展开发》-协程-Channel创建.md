@@ -143,3 +143,5 @@ object(Study\Coroutine\Channel)#1 (1) {
 ```
 
 符合预期。
+
+[下一篇：实现Channel基础类](./《PHP扩展开发》-协程-实现Channel基础类.md)
