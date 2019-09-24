@@ -1,3 +1,8 @@
+--TEST--
+sleep 2
+--SKIPIF--
+<?php if (!extension_loaded("study")) print "skip"; ?>
+--FILE--
 <?php
 
 study_event_init();
@@ -17,3 +22,9 @@ Sgo(function ()
 });
 
 study_event_wait();
+?>
+--EXPECT--
+int(1)
+int(2)
+int(2)
+int(1)
