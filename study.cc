@@ -18,7 +18,7 @@
 
 #include "php_study.h"
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_void, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_study_void, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_create, 0, 0, 1)
@@ -82,8 +82,8 @@ PHP_MINFO_FUNCTION(study)
 const zend_function_entry study_functions[] = {
     PHP_FE(study_coroutine_create, arginfo_study_coroutine_create)
     PHP_FALIAS(sgo, study_coroutine_create, arginfo_study_coroutine_create)
-    PHP_FE(study_event_init, arginfo_study_coroutine_void)
-    PHP_FE(study_event_wait, arginfo_study_coroutine_void)
+    PHP_FE(study_event_init, arginfo_study_void)
+    PHP_FE(study_event_wait, arginfo_study_void)
     PHP_FE_END
 };
 
