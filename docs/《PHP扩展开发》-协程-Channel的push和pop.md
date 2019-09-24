@@ -450,3 +450,5 @@ string(11) "hello world"
 [《PHP扩展开发--引用计数的使用》](https://huanghantao.github.io/2019/09/24/%E3%80%8APHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91-%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%8B/)
 
 那么为什么我们的第一个测试脚本先`pop`再`push`就可以取出数据呢？因为当第一个协程`pop`的时候，`Channel`没有数据，被`yield`出去了。然后第二个协程`push`数据，`push`完之后，`resume`第一个协程，此时第二个协程的栈还没有被销毁，因此`push`进去的字符串还可以使用。
+
+[下一篇：修复一些bug（十）](./《PHP扩展开发》-协程-修复一些bug（十）.md)

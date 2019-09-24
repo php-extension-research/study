@@ -167,3 +167,5 @@ docker build -t study -f docker/Dockerfile .
 [66、实现Channel基础类](./docs/《PHP扩展开发》-协程-实现Channel基础类.md)
 
 [67、Channel的push和pop](./docs/《PHP扩展开发》-协程-Channel的push和pop.md)
+
+[68、修复一些bug（十）](./docs/《PHP扩展开发》-协程-修复一些bug（十）.md)
