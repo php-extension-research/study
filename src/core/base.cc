@@ -76,11 +76,26 @@ int st_event_wait()
     while (StudyG.running > 0)
     {
         int n;
-        uint64_t timeout;
+        int64_t timeout;
         epoll_event *events;
 
         timeout = timer_manager.get_next_timeout();
         events = StudyG.poll->events;
+
+        /**
+         * If there are no timers and events
+         */
+        if (timeout < 0 && StudyG.poll->event_num == 0)
+        {
+            StudyG.running = 0;
+            break;
+        }
+
+        /**
+         * Handle timer tasks
+         */
+        timer_manager.run_timers();
+
         n = epoll_wait(StudyG.poll->epollfd, events, StudyG.poll->ncap, timeout);
 
         for (int i = 0; i < n; i++) {
@@ -93,13 +108,6 @@ int st_event_wait()
             fromuint64(u64, &fd, &id);
             co = Coroutine::get_by_cid(id);
             co->resume();
-        }
-
-        timer_manager.run_timers();
-
-        if (timer_manager.get_next_timeout() < 0 && StudyG.poll->event_num == 0)
-        {
-            StudyG.running = 0;
         }
     }
 

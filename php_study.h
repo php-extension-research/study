@@ -59,4 +59,16 @@ inline zval *st_zend_read_property(zend_class_entry *class_ptr, zval *obj, const
     return zend_read_property(class_ptr, obj, s, len, silent, &rv);
 }
 
+inline zval* st_malloc_zval()
+{
+    return (zval *) emalloc(sizeof(zval));
+}
+
+inline zval* st_zval_dup(zval *val)
+{
+    zval *dup = st_malloc_zval();
+    memcpy(dup, val, sizeof(zval));
+    return dup;
+}
+
 #endif	/* PHP_STUDY_H */

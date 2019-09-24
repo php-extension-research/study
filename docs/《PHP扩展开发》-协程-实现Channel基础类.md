@@ -258,3 +258,5 @@ Installing header files:          /usr/local/include/php/
 ```
 
 符合预期。
+
+[下一篇：Channel的push和pop](./《PHP扩展开发》-协程-Channel的push和pop.md)
