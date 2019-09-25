@@ -128,3 +128,5 @@ Starting program: /usr/local/bin/php test.php
 ```
 
 符合预期，`bug`解决了。
+
+[下一篇：重构Channel（一）](./《PHP扩展开发》-协程-重构Channel（一）.md)
