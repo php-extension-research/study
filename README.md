@@ -26,7 +26,7 @@ PHP版本：7.3.5
 docker build -t study -f docker/Dockerfile .
 ```
 
-## 《PHP扩展开发》--协程
+## 目录
 
 ### 第一阶段 协程基础模块
 
@@ -174,6 +174,6 @@ docker build -t study -f docker/Dockerfile .
 
 [68、修复一些bug（十）](./docs/《PHP扩展开发》-协程-修复一些bug（十）.md)
 
-### 重构Channel接口
+### 第五阶段 重构Channel接口
 
 [69、重构Channel（一）](./docs/《PHP扩展开发》-协程-重构Channel（一）.md)
