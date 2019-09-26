@@ -93,3 +93,21 @@ bool Channel::push(void *data, double timeout)
 
     return true;
 }
+
+bool Channel::empty()
+{
+    return data_queue.empty();
+}
+
+void* Channel::pop_data()
+{
+    void *data;
+
+    if (data_queue.size() == 0)
+    {
+        return nullptr;
+    }
+    data = data_queue.front();
+    data_queue.pop();
+    return data;
+}

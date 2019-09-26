@@ -71,4 +71,21 @@ inline zval* st_zval_dup(zval *val)
     return dup;
 }
 
+#define ST_SET_CLASS_CREATE(module, _create_object) \
+    module##_ce_ptr->create_object = _create_object
+
+#define ST_SET_CLASS_FREE(module, _free_obj) \
+    module##_handlers.free_obj = _free_obj
+
+#define ST_SET_CLASS_CREATE_AND_FREE(module, _create_object, _free_obj) \
+    ST_SET_CLASS_CREATE(module, _create_object); \
+    ST_SET_CLASS_FREE(module, _free_obj)
+
+/**
+ * module##_handlers.offset 保存PHP对象在自定义对象中的偏移量
+ */
+#define ST_SET_CLASS_CUSTOM_OBJECT(module, _create_object, _free_obj, _struct, _std) \
+    ST_SET_CLASS_CREATE_AND_FREE(module, _create_object, _free_obj); \
+    module##_handlers.offset = XtOffsetOf(_struct, _std)
+
 #endif	/* PHP_STUDY_H */

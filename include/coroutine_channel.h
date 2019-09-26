@@ -18,6 +18,8 @@ public:
     ~Channel();
     void* pop(double timeout = -1);
     bool push(void *data, double timeout = -1);
+    bool empty();
+    void* pop_data();
 
 protected:
     size_t capacity = 1;
