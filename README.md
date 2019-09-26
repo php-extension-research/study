@@ -174,8 +174,6 @@ docker build -t study -f docker/Dockerfile .
 
 [68、修复一些bug（十）](./docs/《PHP扩展开发》-协程-修复一些bug（十）.md)
 
-### 第五阶段 重构Channel接口
-
 [69、重构Channel（一）](./docs/《PHP扩展开发》-协程-重构Channel（一）.md)
 
 [70、重构Channel（二）](./docs/《PHP扩展开发》-协程-重构Channel（二）.md)
