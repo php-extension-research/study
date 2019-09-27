@@ -359,3 +359,5 @@ object(Study\Coroutine\Channel)#1 (1) {
 ```
 
 符合预期。
+
+[下一篇：触发PHP对象free_obj的时机](./《PHP扩展开发》-协程-触发PHP对象free_obj的时机.md)
