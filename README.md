@@ -172,12 +172,12 @@ docker build -t study -f docker/Dockerfile .
 
 [67、Channel的push和pop](./docs/《PHP扩展开发》-协程-Channel的push和pop.md)
 
+### 第四阶段 优化（二）
+
 [68、修复一些bug（十）](./docs/《PHP扩展开发》-协程-修复一些bug（十）.md)
 
 [69、重构Channel（一）](./docs/《PHP扩展开发》-协程-重构Channel（一）.md)
 
 [70、重构Channel（二）](./docs/《PHP扩展开发》-协程-重构Channel（二）.md)
-
-### 第四阶段 优化（二）
 
 [71、自定义Socket对象](./docs/《PHP扩展开发》-协程-自定义Socket对象.md)
