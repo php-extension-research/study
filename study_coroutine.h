@@ -59,6 +59,7 @@ protected:
     static void vm_stack_init(void);
     static void on_yield(void *arg);
     static void on_resume(void *arg);
+    static void on_close(void *arg);
     static inline void restore_task(php_coro_task *task);
     static inline void restore_vm_stack(php_coro_task *task);
 };

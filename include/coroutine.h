@@ -25,6 +25,7 @@ public:
     static int sleep(double seconds);
     static void set_on_yield(st_coro_on_swap_t func);
     static void set_on_resume(st_coro_on_swap_t func);
+    static void set_on_close(st_coro_on_swap_t func);
 
     inline long get_cid()
     {
@@ -52,6 +53,7 @@ protected:
     static long last_cid;
     static st_coro_on_swap_t on_yield;
     static st_coro_on_swap_t on_resume;
+    static st_coro_on_swap_t on_close;   /* before close */
 
     Coroutine(coroutine_func_t fn, void *private_data) :
             ctx(stack_size, fn, private_data)
@@ -68,6 +70,7 @@ protected:
         ctx.swap_in();
         if (ctx.is_end())
         {
+            on_close(task);
             current = origin;
             coroutines.erase(cid);
             delete this;

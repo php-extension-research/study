@@ -12,6 +12,7 @@ void PHPCoroutine::init()
 {
     Coroutine::set_on_yield(on_yield);
     Coroutine::set_on_resume(on_resume);
+    Coroutine::set_on_close(on_close);
 }
 
 long PHPCoroutine::create(zend_fcall_info_cache *fci_cache, uint32_t argc, zval *argv)
@@ -119,9 +120,6 @@ void PHPCoroutine::create_func(void *arg)
         task->defer_tasks = nullptr;
     }
 
-    zend_vm_stack stack = EG(vm_stack);
-    efree(stack);
-
     zval_ptr_dtor(retval);
 }
 
@@ -155,6 +153,16 @@ void PHPCoroutine::on_resume(void *arg)
     php_coro_task *current_task = get_task();
     save_task(current_task);
     restore_task(task);
+}
+
+void PHPCoroutine::on_close(void *arg)
+{
+    php_coro_task *task = (php_coro_task *) arg;
+    php_coro_task *origin_task = get_origin_task(task);
+    zend_vm_stack stack = EG(vm_stack);
+    php_printf("%p\n", stack);
+    efree(stack);
+    restore_task(origin_task);
 }
 
 /**
