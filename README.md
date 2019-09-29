@@ -178,4 +178,6 @@ docker build -t study -f docker/Dockerfile .
 
 [70、重构Channel（二）](./docs/《PHP扩展开发》-协程-重构Channel（二）.md)
 
-[71、触发PHP对象free_obj的时机](./docs/《PHP扩展开发》-协程-触发PHP对象free_obj的时机.md)
+### 第四阶段 优化（二）
+
+[71、自定义Socket对象](./docs/《PHP扩展开发》-协程-自定义Socket对象.md)

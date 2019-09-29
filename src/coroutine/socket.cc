@@ -36,12 +36,12 @@ int Socket::bind(int type, char *host, int port)
     return stSocket_bind(sockfd, type, host, port);
 }
 
-int Socket::listen()
+int Socket::listen(int backlog)
 {
-    return stSocket_listen(sockfd);
+    return stSocket_listen(sockfd, backlog);
 }
 
-int Socket::accept()
+Socket* Socket::accept()
 {
     int connfd;
 
@@ -50,7 +50,7 @@ int Socket::accept()
         connfd = stSocket_accept(sockfd);
     } while (connfd < 0 && errno == EAGAIN && wait_event(ST_EVENT_READ));
     
-    return connfd;
+    return (new Socket(connfd));
 }
 
 ssize_t Socket::recv(void *buf, size_t len)

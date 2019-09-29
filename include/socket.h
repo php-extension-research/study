@@ -11,7 +11,7 @@ enum stSocket_type
 
 int stSocket_create(int domain, int type, int protocol);
 int stSocket_bind(int sock, int type, char *host, int port);
-int stSocket_listen(int sock);
+int stSocket_listen(int sock, int backlog);
 int stSocket_accept(int sock);
 int stSocket_close(int fd);
 
