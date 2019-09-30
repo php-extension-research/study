@@ -70,6 +70,7 @@ protected:
         ctx.swap_in();
         if (ctx.is_end())
         {
+            assert(current == this);
             on_close(task);
             current = origin;
             coroutines.erase(cid);
