@@ -160,7 +160,6 @@ void PHPCoroutine::on_close(void *arg)
     php_coro_task *task = (php_coro_task *) arg;
     php_coro_task *origin_task = get_origin_task(task);
     zend_vm_stack stack = EG(vm_stack);
-    php_printf("%p\n", stack);
     efree(stack);
     restore_task(origin_task);
 }
