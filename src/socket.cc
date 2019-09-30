@@ -65,11 +65,6 @@ int stSocket_close(int fd)
 {
     int ret;
 
-    if (fd == 4)
-    {
-        stError("close 4");
-    }
-
     ret = close(fd);
     if (ret < 0)
     {
