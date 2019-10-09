@@ -191,3 +191,5 @@ docker build -t study -f docker/Dockerfile .
 [71、自定义Socket对象](./docs/《PHP扩展开发》-协程-自定义Socket对象.md)
 
 [72、修复一些bug（十一）](./docs/《PHP扩展开发》-协程-修复一些bug（十一）.md)
+
+[73、重构Server](./docs/《PHP扩展开发》-协程-重构Server.md)
