@@ -69,6 +69,15 @@ static void study_coro_socket_free_object(zend_object *object)
     zend_object_std_dtor(&sock->std);
 }
 
+void php_study_init_socket_object(zval *zsocket, Socket *socket)
+{
+    zend_object *object = study_coro_socket_create_object(study_coro_socket_ce_ptr);
+
+    coro_socket *socket_t = (coro_socket *) study_coro_socket_fetch_object(object);
+    socket_t->socket = socket;
+    ZVAL_OBJ(zsocket, object);
+}
+
 static PHP_METHOD(study_coro_socket, __construct)
 {
     zend_long domain;

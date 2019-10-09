@@ -50,7 +50,7 @@ ZEND_BEGIN_MODULE_GLOBALS(study)
 ZEND_END_MODULE_GLOBALS(study)
 
 void study_coroutine_util_init();
-void study_coroutine_server_coro_init();
+void study_coro_server_init(int module_number);
 void study_coro_channel_init();
 void study_coro_socket_init(int module_number);
 

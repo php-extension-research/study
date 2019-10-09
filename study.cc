@@ -52,7 +52,7 @@ PHP_FUNCTION(study_event_wait)
 PHP_MINIT_FUNCTION(study)
 {
     study_coroutine_util_init();
-    // study_coroutine_server_coro_init();
+    study_coro_server_init(module_number);
     study_coro_channel_init();
     study_coro_socket_init(module_number);
     return SUCCESS;
