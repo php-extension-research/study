@@ -55,6 +55,7 @@ PHP_MINIT_FUNCTION(study)
     study_coro_server_init(module_number);
     study_coro_channel_init();
     study_coro_socket_init(module_number);
+    study_runtime_init();
     return SUCCESS;
 }
 

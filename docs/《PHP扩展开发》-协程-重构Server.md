@@ -468,3 +468,5 @@ Transfer rate:          1100.22 [Kbytes/sec] received
 ```
 
 可以看出，在百万级别的请求下，服务器也是可以非常稳定的。
+
+[下一篇：hook原来的sleep](./《PHP扩展开发》-协程-hook原来的sleep.md)

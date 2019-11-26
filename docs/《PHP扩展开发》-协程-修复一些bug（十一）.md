@@ -188,3 +188,5 @@ Installing header files:          /usr/local/include/php/
 ```
 
 我们发现，每次释放的协程栈地址都是不同的了。符合预期。
+
+[下一篇：重构Server](./《PHP扩展开发》-协程-重构Server.md)

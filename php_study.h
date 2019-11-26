@@ -53,6 +53,7 @@ void study_coroutine_util_init();
 void study_coro_server_init(int module_number);
 void study_coro_channel_init();
 void study_coro_socket_init(int module_number);
+void study_runtime_init();
 
 inline zval *st_zend_read_property(zend_class_entry *class_ptr, zval *obj, const char *s, int len, int silent)
 {
