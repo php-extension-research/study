@@ -223,3 +223,5 @@ int(1)
 ```
 
 因为我们已经把`PHP`原先的`sleep`函数替换成了`Study\Coroutine::sleep`方法，所以，进程不会阻塞起来，会在调用`sleep`之后立马切换到第二个协程。
+
+[下一篇：stream_socket_server源码分析](./《PHP扩展开发》-协程-stream_socket_server源码分析.md)
