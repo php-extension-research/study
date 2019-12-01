@@ -399,3 +399,5 @@ php_tcp_sockop_bind (stream=0x7ffff5e5fa00, sock=0x7ffff5e02870, xparam=0x7fffff
 我们发现，函数`php_tcp_sockop_bind`里面有创建`socket`的代码。说明创建`socket`的代码被封装在了`php_tcp_sockop_bind`里面。并且在这个函数的后面，我们也看到了`bind`这个函数。
 
 `OK`，我们现在分析完了`stream_socket_server`这个`PHP`函数的工作流程。我们在想，如果我们调用`php_stream_xport_register`去替换掉`xport_hash`里面保存的`php_stream_generic_socket_factory`函数指针，是不是就可以协程化了呢？
+
+[下一篇：替换php_stream_generic_socket_factory](./《PHP扩展开发》-协程-替换php_stream_generic_socket_factory.md)

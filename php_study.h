@@ -21,6 +21,8 @@
 
 #include "php.h"
 #include "php_ini.h"
+#include "php_network.h"
+#include "php_streams.h"
 #include "ext/standard/info.h"
 
 #include "study.h"

@@ -199,3 +199,5 @@ docker build -t study -f docker/Dockerfile .
 [74、hook原来的sleep](./docs/《PHP扩展开发》-协程-hook原来的sleep.md)
 
 [75、stream_socket_server源码分析](./docs/《PHP扩展开发》-协程-stream_socket_server源码分析.md)
+
+[76、替换php_stream_generic_socket_factory](./docs/《PHP扩展开发》-协程-替换php_stream_generic_socket_factory.md)
