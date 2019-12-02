@@ -34,3 +34,4 @@ tests/*/*.exp
 tests/*/*.log
 tests/*/*.sh
 .vscode
+.DS_Store

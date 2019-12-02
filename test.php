@@ -18,6 +18,7 @@ Sgo(function () {
         exit(1);
     }
     var_dump($socket);
+    sleep(10000);
 });
 
 study_event_wait();

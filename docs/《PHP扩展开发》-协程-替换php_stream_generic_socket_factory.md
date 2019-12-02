@@ -340,3 +340,5 @@ resource(5) of type (stream)
 ```
 
 `OK`，符合预期。
+
+[下一篇：如何bind和listen](./《PHP扩展开发》-协程-如何bind和listen.md)
