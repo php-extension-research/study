@@ -6,7 +6,7 @@
 
 1、全局`PHP`扩展函数的声明都放在文件`php_study.h`里面。例如：
 
-```c++
+```cpp
 PHP_FUNCTION(test);
 ```
 
@@ -18,7 +18,7 @@ PHP_FUNCTION(test);
 
 4、扩展方法声明放在相应的`study_*.cc`文件里面，并且声明为`static`类型。例如：
 
-```c++
+```cpp
 static PHP_METHOD(study_coroutine, test);
 ```
 
@@ -39,7 +39,7 @@ include/*.h 按需引入 其他的include/*.h
 
 7、为了防止重复引入头文件，增加如下条件编译。例如，在`study.h`头文件里面写入：
 
-```c++
+```cpp
 #ifndef STUDY_H_
 #define STUDY_H_
 

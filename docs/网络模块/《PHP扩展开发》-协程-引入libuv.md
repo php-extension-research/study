@@ -123,7 +123,7 @@ STUDY_SHARED_LIBADD = -Wl,-rpath,/usr/local/lib/ -L/usr/local/lib/ -luv
 
 OK，我们来测试一下我们是否可以链接成功。我们在文件`study.cc`里面增加如下`PHP`接口：
 
-```c++
+```cpp
 // 新增加的内容
 #include <stdio.h>
 #include <iostream>

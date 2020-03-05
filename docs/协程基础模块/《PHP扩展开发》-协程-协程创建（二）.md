@@ -4,7 +4,7 @@
 
 首先，我们需要对传给接口的参数进行解析。解析参数需要使用`PHP`提供给我们的宏来完成，分别是开头的和结尾的宏：
 
-```c++
+```cpp
 1、ZEND_PARSE_PARAMETERS_START
 2、ZEND_PARSE_PARAMETERS_START_EX
 3、ZEND_PARSE_PARAMETERS_END
@@ -17,7 +17,7 @@
 
 ## ZEND_PARSE_PARAMETERS_START_EX
 
-```c++
+```cpp
 #define ZEND_PARSE_PARAMETERS_START_EX(flags, min_num_args, max_num_args) do { \
 		const int _flags = (flags); \
 		int _min_num_args = (min_num_args); \
@@ -56,7 +56,7 @@
 			_real_arg = ZEND_CALL_ARG(execute_data, 0);
 ```
 
-```c++
+```cpp
 #define ZEND_PARSE_PARAMETERS_START(min_num_args, max_num_args) \
 	ZEND_PARSE_PARAMETERS_START_EX(0, min_num_args, max_num_args)
 ```
@@ -65,7 +65,7 @@
 
 `flags`：更改`ZEND_PARSE_PARAMETERS_START`的默认行为。`flags`可取的值有`ZEND_PARSE_PARAMS_QUIET`和`ZEND_PARSE_PARAMS_THROW`。我们来看看`ZEND_PARSE_PARAMETERS_START_EX`展开后与`flags`有关的地方：
 
-```c++
+```cpp
 if (UNEXPECTED(_num_args < _min_num_args) || \
 			    (UNEXPECTED(_num_args > _max_num_args) && \
 			     EXPECTED(_max_num_args >= 0))) { \
@@ -83,7 +83,7 @@ if (UNEXPECTED(_num_args < _min_num_args) || \
 
 可以发现：
 
-```c++
+```cpp
 UNEXPECTED(_num_args < _min_num_args) || \
 			    (UNEXPECTED(_num_args > _max_num_args) && \
 			     EXPECTED(_max_num_args >= 0))
@@ -91,13 +91,13 @@ UNEXPECTED(_num_args < _min_num_args) || \
 
 实际上就是判断传递个接口的参数个数合法，如果不合法就进入这个`if`分支。接着，
 
-```c++
+```cpp
 !(_flags & ZEND_PARSE_PARAMS_QUIET)
 ```
 
 是判断`flags`是否设置了`ZEND_PARSE_PARAMS_QUIET`。如果没有设置`ZEND_PARSE_PARAMS_QUIET`，则往这个`if`分支走。然后：
 
-```c++
+```cpp
 _flags & ZEND_PARSE_PARAMS_THROW
 ```
 
@@ -107,7 +107,7 @@ _flags & ZEND_PARSE_PARAMS_THROW
 
 ## ZEND_PARSE_PARAMETERS_END_EX
 
-```c++
+```cpp
 #define ZEND_PARSE_PARAMETERS_END_EX(failure) \
 		} while (0); \
 		if (UNEXPECTED(error_code != ZPP_ERROR_OK)) { \
@@ -137,12 +137,12 @@ _flags & ZEND_PARSE_PARAMS_THROW
 	} while (0)
 ```
 
-```c++
+```cpp
 #define ZEND_PARSE_PARAMETERS_END() \
 	ZEND_PARSE_PARAMETERS_END_EX(return)
 ```
 
-```c++
+```cpp
 		} while (0); 
 ```
 
@@ -154,7 +154,7 @@ _flags & ZEND_PARSE_PARAMS_THROW
 
 有了前面的基础，解析参数的代码就好理解多了：
 
-```c++
+```cpp
 PHP_METHOD(study_coroutine_util, create)
 {
     zend_fcall_info fci = empty_fcall_info;
@@ -170,7 +170,7 @@ PHP_METHOD(study_coroutine_util, create)
 
 `RETURN_FALSE`展开如下：
 
-```c++
+```cpp
 #define RETURN_FALSE  					{ RETVAL_FALSE; return; }
 #define RETVAL_FALSE  					ZVAL_FALSE(return_value)
 ```

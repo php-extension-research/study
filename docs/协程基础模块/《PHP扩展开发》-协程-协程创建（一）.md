@@ -6,7 +6,7 @@
 
 首先，我们需要一个`PHP`可用的协程，根据[梳理一下架构](./《PHP扩展开发》-协程-梳理一下架构.md)这篇文章的内容，我们需要在`study_coroutine.h`里面来定义：
 
-```c++
+```cpp
 #include "php_study.h"
 
 namespace Study
@@ -20,7 +20,7 @@ class PHPCoroutine
 
 然后，我们还需要一个与`PHP`无关的协程数据结构，我们定义在`include/coroutine.h`下面：
 
-```c++
+```cpp
 #ifndef COROUTINE_H
 #define COROUTINE_H
 
@@ -37,7 +37,7 @@ class Coroutine
 
 `coroutine_func_t`是协程需要跑的函数，我们可以定义在`include/context.h`下面：
 
-```c++
+```cpp
 #ifndef CONTEXT_H
 #define CONTEXT_H
 
@@ -50,7 +50,7 @@ typedef void (*coroutine_func_t)(void*);
 
 然后，我们在`include/coroutine.h`中引入这个`context.h`文件：
 
-```c++
+```cpp
 #include "context.h"
 ```
 
@@ -58,7 +58,7 @@ typedef void (*coroutine_func_t)(void*);
 
 OK，此时，我们需要为`PHP`脚本提供一个创建协程的接口，我们在文件`study_coroutine_util.cc`里面来完成。首先，我们需要确定一下这个接口的参数是什么，很显然，是一个`PHP`函数：
 
-```c++
+```cpp
 #include "study_coroutine.h"
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_create, 0, 0, 1)
@@ -68,7 +68,7 @@ ZEND_END_ARG_INFO()
 
 其中`ZEND_BEGIN_ARG_INFO_EX`和`ZEND_END_ARG_INFO`是一对宏，用来声明函数接受的参数。其中`ZEND_BEGIN_ARG_INFO_EX`展开如下：
 
-```c++
+```cpp
 #define ZEND_BEGIN_ARG_INFO_EX(name, _unused, return_reference, required_num_args)	\
 	static const zend_internal_arg_info name[] = { \
 		{ (const char*)(zend_uintptr_t)(required_num_args), 0, return_reference, 0 },
@@ -86,13 +86,13 @@ ZEND_END_ARG_INFO()
 
 `ZEND_END_ARG_INFO`展开如下：
 
-```c++
+```cpp
 #define ZEND_END_ARG_INFO()		};
 ```
 
 因此，我们对这个参数声明展开后，会得到如下内容：
 
-```c++
+```cpp
 ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_create, 0, 0, 1)
     ZEND_ARG_CALLABLE_INFO(0, func, 0)
 ZEND_END_ARG_INFO()
@@ -105,7 +105,7 @@ static const zend_internal_arg_info arginfo_study_coroutine_create[] = { \
 
 所以，虽然我在
 
-```c++
+```cpp
 ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_create, 0, 0, 1)
 ```
 
@@ -115,7 +115,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_study_coroutine_create, 0, 0, 1)
 
 然后，我们需要在文件`study_coroutine_util.cc`里面去声明这个方法：
 
-```c++
+```cpp
 static PHP_METHOD(study_coroutine_util, create);
 ```
 
@@ -130,7 +130,7 @@ static PHP_METHOD(study_coroutine_util, create);
 
 所以，接口方法展开的内容如下：
 
-```c++
+```cpp
 PHP_METHOD(study_coroutine_util, create);
 ZEND_METHOD(study_coroutine_util, create);
 ZEND_NAMED_FUNCTION(ZEND_MN(study_coroutine_util##_##create));
@@ -141,7 +141,7 @@ void ZEND_FASTCALL zim_##study_coroutine_util##_##create(zend_execute_data *exec
 
 `static PHP_METHOD(study_coroutine_util, create);`相当于声明了如下函数：
 
-```c++
+```cpp
 void zim_study_coroutine_util_create(zend_execute_data *execute_data, zval *return_value);
 ```
 
@@ -155,7 +155,7 @@ void zim_study_coroutine_util_create(zend_execute_data *execute_data, zval *retu
 
 我们在`study_coroutine_util.cc`文件里面写下：
 
-```c++
+```cpp
 PHP_METHOD(study_coroutine_util, create)
 {
     php_printf("success!\n");
@@ -168,7 +168,7 @@ PHP_METHOD(study_coroutine_util, create)
 
 接着，我们需要对这个方法进行收集，放在变量`study_coroutine_util_methods`里面。在`study_coroutine_util.cc`写下：
 
-```c++
+```cpp
 const zend_function_entry study_coroutine_util_methods[] =
 {
     PHP_ME(study_coroutine_util, create, arginfo_study_coroutine_create, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
@@ -178,7 +178,7 @@ const zend_function_entry study_coroutine_util_methods[] =
 
 这里我们使用到一个数据结构：
 
-```c++
+```cpp
 typedef struct _zend_function_entry {
 	const char *fname;
 	zif_handler handler;
@@ -190,19 +190,19 @@ typedef struct _zend_function_entry {
 
 `fname`是函数的名字，对应的是`PHP_ME`的第二个参数，`Zend`引擎将会创建一个包含函数名`fname`的`interned zend_string`。在这里，是`create`。这个`fname`是我们可以在`PHP`脚本中使用的。而`PHP_ME`的第一个参数`study_coroutine_util`是为了拼凑出：
 
-```c++
+```cpp
 PHP_METHOD(study_coroutine_util, create)
 ```
 
 声明的函数：
 
-```c++
+```cpp
 zim_study_coroutine_util_create
 ```
 
 `handler`是一个函数指针，也就是该函数的主体。那么是什么样的函数指针呢？我们得看看前面的`zif_handler`：
 
-```c++
+```cpp
 /* zend_internal_function_handler */
 typedef void (ZEND_FASTCALL *zif_handler)(INTERNAL_FUNCTION_PARAMETERS);
 ```
@@ -213,7 +213,7 @@ typedef void (ZEND_FASTCALL *zif_handler)(INTERNAL_FUNCTION_PARAMETERS);
 
 `num_args`是接口方法的参数个数。可以发现，我们这里并没有填写参数的个数，实际上，这个参数的个数会通过宏`ZEND_FENTRY`来计算出来：
 
-```c++
+```cpp
 #define ZEND_FENTRY(zend_name, name, arg_info, flags)	{ #zend_name, name, arg_info, (uint32_t) (sizeof(arg_info)/sizeof(struct _zend_internal_arg_info)-1), flags },
 ```
 
@@ -223,7 +223,7 @@ typedef void (ZEND_FASTCALL *zif_handler)(INTERNAL_FUNCTION_PARAMETERS);
 
 然后，我们需要去注册我们的`Study\Coroutine`这个类。我们在`MINIT`这个阶段进行注册，代码如下：
 
-```c++
+```cpp
 zend_class_entry study_coroutine_ce;
 zend_class_entry *study_coroutine_ce_ptr;
 
@@ -237,7 +237,7 @@ PHP_MINIT_FUNCTION(study)
 
 但是，考虑到以后我们会有许多的类，我们不在`MINIT`里面直接写注册的代码，而是让`study_coroutine_util.cc`提供一个函数，我们在这个函数里面实现注册功能：
 
-```c++
+```cpp
 /**
  * Define zend class entry
  */
@@ -253,13 +253,13 @@ void study_coroutine_util_init()
 
 然后，我们在`php_study.h`里面来进行声明：
 
-```c++
+```cpp
 void study_coroutine_util_init();
 ```
 
 然后，我们在`MINIT`中对这个函数进行调用，完成类的注册：
 
-```c++
+```cpp
 PHP_MINIT_FUNCTION(study)
 {
 	study_coroutine_util_init();

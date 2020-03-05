@@ -6,7 +6,7 @@
 
 首先，我们修改`php_study.h`文件的内容如下：
 
-```c++
+```cpp
 #ifndef PHP_STUDY_H
 #define PHP_STUDY_H
 
@@ -45,7 +45,7 @@ ZEND_END_MODULE_GLOBALS(study)
 
 然后，在`include`目录里面创建文件`study.h`，内容如下：
 
-```c++
+```cpp
 #ifndef STUDY_H_
 #define STUDY_H_
 
@@ -93,7 +93,7 @@ ZEND_END_MODULE_GLOBALS(study)
 
 然后，我们再把`study.c`文件命名为`study.cc`，修改里面的内容为：
 
-```c++
+```cpp
 #include "php_study.h"
 
 PHP_MINIT_FUNCTION(study)

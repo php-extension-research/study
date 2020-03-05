@@ -2,7 +2,7 @@
 
 这篇文章我们介绍下`zend_fcall_info`。我们先来看看`zend_fcall_info`的定义：
 
-```c++
+```cpp
 typedef struct _zend_fcall_info {
 	size_t size;
 	zval function_name;

@@ -4,7 +4,7 @@
 
 我们在整理`study.cc`文件的时候，看到了一下函数：
 
-```c++
+```cpp
 PHP_MINIT_FUNCTION(study)
 {
 	return SUCCESS;
@@ -40,7 +40,7 @@ PHP生命周期有`5`个阶段：
 
 OK，我们现在来测试一下这几个函数。修改这几个函数的内容：
 
-```c++
+```cpp
 PHP_MINIT_FUNCTION(study)
 {
 	php_printf("MINIT\n");

@@ -19,7 +19,7 @@ study_coroutine_util.cc（文件）
 
 我们在`study_coroutine.h`文件里面写下如下内容：
 
-```c++
+```cpp
 #ifndef STUDY_COROUTINE_H
 #define STUDY_COROUTINE_H
 

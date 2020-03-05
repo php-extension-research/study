@@ -35,3 +35,4 @@ tests/*/*.log
 tests/*/*.sh
 .vscode
 .DS_Store
+node_modules

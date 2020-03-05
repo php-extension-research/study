@@ -4,7 +4,7 @@
 
 我们实现的接口现在变成了：
 
-```c++
+```cpp
 PHP_METHOD(study_coroutine_util, create)
 {
     zend_fcall_info fci = empty_fcall_info;
