@@ -32,7 +32,7 @@ static const zend_function_entry study_coroutine_util_methods[] =
 };
 ```
 
-也就是说，这这方法是`public`和`static`的。
+也就是说，这个方法是`public`和`static`的。
 
 OK，我们来讲解一下这个接口的具体实现：
 
