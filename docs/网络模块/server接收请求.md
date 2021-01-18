@@ -41,7 +41,7 @@ static const zend_function_entry study_coroutine_server_coro_methods[] =
 
 其中，
 
-`st_zend_read_property`是用来读取对象的某个实现的函数。我们这里需要读取服务器端的套接字`sock`，而`sock`是我们在调用`Server`的构造函数的时候创建并设置的（如果忘记了这一部分知识点，可以回顾一下`server`创建）。
+`st_zend_read_property`是用来读取对象的某个属性的函数。我们这里需要读取服务器端的套接字`sock`，而`sock`是我们在调用`Server`的构造函数的时候创建并设置的（如果忘记了这一部分知识点，可以回顾一下`server`创建）。
 
 `stSocket_accept`则是用来获取客户端的连接。
 
