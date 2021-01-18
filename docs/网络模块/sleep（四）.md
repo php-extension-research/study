@@ -98,7 +98,7 @@ if (uv__next_timeout(loop) < 0)
 }
 ```
 
-这段代码的作用是先执行`uv__next_timeout`来判断一下是否还有为执行的定时器，如果没有，那么会返回`-1`，然后执行`uv_stop`把`loop->stop_flag`设置为1，结束我们最外层的`while`循环。
+这段代码的作用是先执行`uv__next_timeout`来判断一下是否还有未执行的定时器，如果没有，那么会返回`-1`，然后执行`uv_stop`把`loop->stop_flag`设置为1，结束我们最外层的`while`循环。
 
 `OK`，我们来重新编译、安装一下：
 
