@@ -26,7 +26,7 @@ while (1)
 
 这是一个单进程单线程的同步`Server`。代码很简单，接收客户端的连接、接收客户端发来的数据，发送数据给客户端。
 
-然后，我们使用`Swoole`提供的压测脚本来进行压测，在`swoole-src/benchmark/`下的`main.php`文件。我们先启动我们的服务器：
+然后，我们使用`Swoole`提供的压测脚本来进行压测，在`swoole/benchmark/`下的 [main.php](https://github.com/swoole/benchmark/blob/master/main.php) 文件。我们先启动我们的服务器：
 
 ```php
 ~/codeDir/cppCode/study # php test.php 
