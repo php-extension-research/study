@@ -149,7 +149,7 @@ static const zend_function_entry study_coro_channel_methods[] =
 `OK`，重新编译、安装扩展：
 
 ```shell
-~/codeDir/cppCode/study # make clean ; make ; make install
+~/codeDir/cppCode/study # make clean && make && make install
 ----------------------------------------------------------------------
 
 Build complete.
@@ -260,7 +260,7 @@ int st_event_wait()
 然后重新编译、安装扩展：
 
 ```shell
-~/codeDir/cppCode/study # make clean ; make ; make install
+~/codeDir/cppCode/study # make clean && make && make install
 ----------------------------------------------------------------------
 
 Build complete.
@@ -396,7 +396,7 @@ efree(zdata); // 增加的地方
 然后重新编译、安装扩展：
 
 ```shell
-~/codeDir/cppCode/study # make clean ; make ; make install
+~/codeDir/cppCode/study # make clean && make && make install
 ----------------------------------------------------------------------
 
 Build complete.

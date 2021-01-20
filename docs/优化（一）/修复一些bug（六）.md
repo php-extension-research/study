@@ -181,7 +181,7 @@ PHP_METHOD(study_coroutine_server_coro, recv)
 我们重新编译、安装扩展：
 
 ```shell
-~/codeDir/cppCode/study # make clean ; make ; make install
+~/codeDir/cppCode/study # make clean && make && make install
 ----------------------------------------------------------------------
 
 Build complete.

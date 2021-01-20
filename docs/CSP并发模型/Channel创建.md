@@ -96,7 +96,7 @@ void study_coro_channel_init(); // 新增的一行
 重新编译、安装扩展：
 
 ```shell
-~/codeDir/cppCode/study # phpize --clean ; phpize ; ./configure
+~/codeDir/cppCode/study # phpize --clean && phpize && ./configure
 ~/codeDir/cppCode/study # make clean ; make -j4 ; make install
 ----------------------------------------------------------------------
 

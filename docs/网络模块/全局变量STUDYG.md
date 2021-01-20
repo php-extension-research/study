@@ -113,13 +113,13 @@ int PHPCoroutine::scheduler()
 然后，我们需要重新生成一下我们的`Makefile`：
 
 ```shell
-~/codeDir/cppCode/study # phpize --clean ; phpize ; ./configure
+~/codeDir/cppCode/study # phpize --clean && phpize && ./configure
 ```
 
 然后编译、安装扩展：
 
 ```shell
-~/codeDir/cppCode/study # make ; make install
+~/codeDir/cppCode/study # make && make install
 ```
 
 编写测试代码：

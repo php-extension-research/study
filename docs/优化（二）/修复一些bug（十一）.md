@@ -13,7 +13,7 @@ efree(stack);
 这里，我们打印了`PHP`栈的地址。然后重新编译、安装扩展：
 
 ```shell
-~/codeDir/cppCode/study # make clean ; make ; make install
+~/codeDir/cppCode/study # make clean && make && make install
 ----------------------------------------------------------------------
 
 Build complete.
@@ -165,7 +165,7 @@ efree(stack);
 接着，重新编译、安装扩展：
 
 ```cpp
-~/codeDir/cppCode/study # make clean ; make ; make install
+~/codeDir/cppCode/study # make clean && make && make install
 ----------------------------------------------------------------------
 
 Build complete.

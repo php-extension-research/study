@@ -34,7 +34,7 @@ int stSocket_close(int fd)
 然后重新编译、安装扩展：
 
 ```shell
-~/codeDir/cppCode/study # make clean ; make ; make install
+~/codeDir/cppCode/study # make clean && make && make install
 ----------------------------------------------------------------------
 
 Build complete.

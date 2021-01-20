@@ -173,7 +173,7 @@ static inline void free_stPoll()
 我们来重新编译、安装扩展：
 
 ```cpp
-~/codeDir/cppCode/study # make clean ; make ; make install
+~/codeDir/cppCode/study # make clean && make && make install
 ----------------------------------------------------------------------
 
 Build complete.
