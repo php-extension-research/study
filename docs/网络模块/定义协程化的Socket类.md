@@ -103,13 +103,13 @@ study_source_file="\
 `OK`，我们重新生成`Makefile`：
 
 ```shell
-~/codeDir/cppCode/study # phpize --clean ; phpize ; ./configure
+~/codeDir/cppCode/study # phpize --clean && phpize && ./configure
 ```
 
 然后编译、安装扩展：
 
 ```shell
-~/codeDir/cppCode/study # make ; make install
+~/codeDir/cppCode/study # make && make install
 ----------------------------------------------------------------------
 
 Build complete.

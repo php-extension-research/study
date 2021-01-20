@@ -102,7 +102,7 @@ static inline uint64_t touint64(int fd, int id)
 `OK`，我们现在重新编译、安装我们的扩展：
 
 ```shell
-~/codeDir/cppCode/study # make clean ; make ; make install
+~/codeDir/cppCode/study # make clean && make && make install
 ----------------------------------------------------------------------
 
 Build complete.
